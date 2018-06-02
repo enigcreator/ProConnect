@@ -1,0 +1,41 @@
+<form>
+    <div class="form-group">
+      <b><label for="exampleFormControlInput1">Your Post Title </label></b>
+      <input type="title" class="form-control" id="exampleFormControlInput1" [ngModelOptions]="{standalone: true}" [(ngModel)]="title" placeholder="How it works?">
+    </div>
+
+
+    <b><label for="exampleFormControlInput1">Tags</label></b>
+    <form class="form-inline">
+        <label class="sr-only" for="inlineFormInputName2">Name</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" [ngModelOptions]="{standalone: true}" [(ngModel)]="tag_0" id="inlineFormInputName2" placeholder="Tag 1">
+        <label class="sr-only" for="inlineFormInputName2">Name</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" [ngModelOptions]="{standalone: true}" [(ngModel)]="tag_1" id="inlineFormInputName3" placeholder="Tag 2">
+        <label class="sr-only" for="inlineFormInputName2">Name</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" [ngModelOptions]="{standalone: true}" [(ngModel)]="tag_2" id="inlineFormInputName4" placeholder="Tag 3">
+        <label class="sr-only" for="inlineFormInputName2">Name</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" [ngModelOptions]="{standalone: true}" [(ngModel)]="tag_3" id="inlineFormInputName5" placeholder="Tag 4">
+        <label class="sr-only" for="inlineFormInputName2">Name</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" [ngModelOptions]="{standalone: true}" [(ngModel)]="tag_4" id="inlineFormInputName6" placeholder="Tag 5">
+      </form>
+   
+
+
+
+    <div class="form-group">
+        <b><label for="exampleFormControlInput1">Your Post Details </label></b>
+        <md-editor name="Content" [preRender]="preRenderFunc" [(ngModel)]="content" [height]="'500px'" [mode]="mode" [options]="options" required maxlength="500"></md-editor>
+    </div>
+  </form>
+
+
+  <button type="submit" (click) = "onGo()" class="btn btn-primary mb-2">Post!</button>
+
+
+  <!--<select multiple class="form-control" id="exampleFormControlSelect2">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>-->

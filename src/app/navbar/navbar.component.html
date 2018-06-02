@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-md navbar-dark navbar-default navbar-static-top bg-dark">
+  <a class="navbar-brand text-light" href="#">ProConnect</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbar2SupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link text-light customText" [routerLink]="['']">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" [routerLink]="['/users']">Users</a>
+      </li>
+      <li *ngIf= "disableAll" class="nav-item">
+          <a class="nav-link text-light" [routerLink]="['/notifications']">Notifications</a>
+        </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle customText text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item text-light customText" href="#">Action</a>
+          <a class="dropdown-item text-light customText" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-light customText" href="#">Something else here</a>
+        </div>
+      </li>
+      <li *ngIf= "disableAll" class="nav-item">
+          <a class="nav-link text-light"  [routerLink]="['/create']">ASK!</a>
+        </li>
+        <!---->
+      <!--
+       <form class="form-spacer">
+          <input type="search" placeholder="Search">
+        </form>-->
+    </ul>
+      
+    
+      <a class="navbar-brand" >
+        <i class="fa fa-fw fa-inbox fa-lg"></i>
+        <i class="fa fa-fw fa-trophy fa-lg"></i>
+        <i class="fa fa-fw fa-question-circle fa-lg" ></i>
+      </a>
+
+      <form class="form-inline my-2 my-lg-0" (submit) = "onLoginSubmit()">
+          <input *ngIf="!loginButtonStatus && !disableAll" class="form-control mr-sm-2" [(ngModel)]="email"  [ngModelOptions]="{standalone: true}" type="email" placeholder="Email" aria-label="Email">
+          <input *ngIf="!loginButtonStatus && !disableAll" class="form-control mr-sm-2" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" type="password" placeholder="Password" aria-label="Password">
+          <a  *ngIf="loginButtonStatus && !disableAll"class="btn my-1 text-light btn-outline-primary" (click)="toggleLoginButton()" >Sign In</a>
+          <input *ngIf="!loginButtonStatus && !disableAll" type="submit" class="btn my-1 text-light btn-outline-primary" value = "Go!" >
+          &nbsp;
+          <a  *ngIf="!loginButtonStatus && !disableAll" class="btn my-1 text-light btn-outline-primary" (click)="toggleLoginButton()" >Cancel</a>
+          <a  *ngIf="disableAll" class="btn my-1 text-light btn-outline-primary" (click)="logOut()" >Logout</a>
+      
+        </form>
+      
+
+  </div>
+</nav>

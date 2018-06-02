@@ -1,0 +1,65 @@
+<div class=" py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2 class="text-left my-1">Latest</h2>
+        </div>
+        <div class="col-md-6">
+          <ul class="nav nav-tabs py-1">
+            <li class="nav-item">
+              <a (click) = "get_latest_threads(50)" class="active nav-link">Latest</a>
+            </li>
+            <li class="nav-item">
+              <a (click) = "getHot(50)" class="nav-link">Hot</a>
+            </li>
+            <li class="nav-item">
+              <a (click)="getTop(50)" class="nav-link">Top</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+      <div class = "row heighter">
+      </div>
+
+      <div *ngFor = "let i of threads  " class="row mydiv" style = "border-top:1px solid lightblue; border-bottom:1px solid lightblue;">
+        <div class="col-md-3">
+          <div class="row">
+            <div class="col-md-3">
+              <p class="lead text-center ">{{i.votes}} </p>
+              <p class="text-center text-primary ">Votes</p>
+            </div>
+            <div class="col-md-3">
+                <p class="lead text-center ">{{i.answers_count}}</p>
+                <p class="text-center text-success">Answers</p>
+              </div>
+            <div class="col-md-3">
+              <p class="lead text-center ">{{i.views}}</p>
+              <p class="text-center text-primary ">Views</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-12">
+              <h3 class="text-secondary">
+                <a  class="text-primary" (click) = "thread_page(i.id)" style="text-decoration:none">{{i.brief}}</a>
+              </h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <ul  class="list-inline">
+                <li *ngFor = "let j of i.tags" class="list-inline-item bg-info btn-primary">{{j}}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <p class="text-right">Asked {{i.date_created}} by {{i.display_name}}</p>
+            </div>
+          </div>
+        </div>
+      
+      </div>

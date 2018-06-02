@@ -1,0 +1,16 @@
+<div *ngFor = "let x of chat ">
+
+  <p>{{x.message}}</p>
+
+</div>
+
+<div class="col-md-12">
+  <form class="form-inline">
+    <div class="input-group">
+      <input type="text" class="form-control px-4 " [(ngModel)]= "text" [ngModelOptions]="{standalone: true}" placeholder="Your message">
+      <div class="input-group-append">
+        <div class="btn btn-primary try" (click) = "sendMessage()" type="button">Send!</div>
+      </div>
+    </div>
+  </form>
+</div>

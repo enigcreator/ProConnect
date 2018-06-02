@@ -1,0 +1,6 @@
+<a *ngFor = "let i of notifications"  class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{i.notification}}</h5>
+    </div>
+   <button (click) = "route_thread(i.thread_id)" class="btn btn-outline-primary">Go to that thread?</button>
+  </a>

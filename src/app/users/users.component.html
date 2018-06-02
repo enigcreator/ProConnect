@@ -1,0 +1,11 @@
+
+<a *ngFor = "let user of users"  class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{user.display_name}}</h5>
+      <small>{{user.join_date}}}</small>
+    </div>
+   <small><p class="mb-1">Total posts: {{user.posts_created}}</p></small>
+   <button *ngIf="isLoggedIn" (click) = "route_chat(user.id)" class="btn btn-outline-primary">Start Chat</button>
+  </a>
+
+{{value}}

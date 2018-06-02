@@ -1,0 +1,33 @@
+
+.try
+{
+    padding-top: 5%;
+    width: 210px;
+    height: 50px;
+}
+.spacer
+{
+    padding-bottom: 10px;
+}
+
+.btn-length
+{
+    text-align: center;
+    padding-top: 5px;
+    width: 450px;
+}
+.customSize{
+    width: 240px;
+    height: 50px;
+}
+
+.btn-static {
+    background-color: white;
+    border: 1px solid lightgrey;
+    cursor: default;
+  }
+  .btn-static:active {
+    -moz-box-shadow:    inset 0 0 0px white;
+    -webkit-box-shadow: inset 0 0 0px white;
+    box-shadow:         inset 0 0 0px white;
+  }
