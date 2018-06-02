@@ -7,8 +7,10 @@ import { UsersComponent } from './users/users.component';
 import { ChatComponent } from './chat/chat.component';
 import { CreateThreadComponent } from './create-thread/create-thread.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { ProfileComponent } from './profile/profile.component';
 const routes: Routes = [
   { path: '', component: HomeComponent},
+  { path: 'profile', component: ProfileComponent},
   { path: 'thread/:id', component: ThreadComponent},
   { path: 'users', component: UsersComponent},
   { path: 'chat/:id', component: ChatComponent},
