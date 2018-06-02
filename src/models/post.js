@@ -81,7 +81,9 @@ module.exports.insert_simple = function (post, callback)
 {
 
 
-        mySqlQuery("insert into post (details, author) values ('"+post.details+"',  '"+post.author+"' );", null, (err, result_2) => {
+        var temp = {details: post.details, author: post.author};
+
+        mySqlQuery("insert into post set ?", temp , (err, result_2) => {
 
             if (err)
             {
