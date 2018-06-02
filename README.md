@@ -1,3 +1,0 @@
-# ProConnect
-
-run npm install
