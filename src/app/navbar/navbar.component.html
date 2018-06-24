@@ -1,48 +1,58 @@
-<nav class="navbar navbar-expand-md navbar-dark navbar-default navbar-static-top bg-dark">
-  <a class="navbar-brand text-light" href="#">ProConnect</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+				<div class="following bar light">
+				<div class="ui container">
+					<div class="ui grid">
+						<div class="column">
+							<div class="ui top secondary menu">
+								<a class="item brand" routerLink="/splash">
+									<img [src] = "path" class="ui mini image">
+								</a>
 
-  <div class="collapse navbar-collapse" id="navbar2SupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link text-light customText" [routerLink]="['']">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-light" [routerLink]="['/users']">Users</a>
-      </li>
-      <li *ngIf= "disableAll" class="nav-item">
-          <a class="nav-link text-light" [routerLink]="['/notifications']">Notifications</a>
-        </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle customText text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item text-light customText" href="#">Action</a>
-          <a class="dropdown-item text-light customText" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item text-light customText" href="#">Something else here</a>
-        </div>
-      </li>
-      <li *ngIf= "disableAll" class="nav-item">
-          <a class="nav-link text-light"  [routerLink]="['/create']">ASK!</a>
-        </li>
-        <!---->
-      <!--
-       <form class="form-spacer">
-          <input type="search" placeholder="Search">
-        </form>-->
-    </ul>
-      
+
+              <!--  <a *ngIf = "currentRoute === '/splash'"class="item" >{{currentRoute}}</a> -->
+                <a *ngIf = "currentRoute === '/splash'"class="item" routerLink="/">Explore</a>
+                <a *ngIf = "currentRoute === '/splash'"class="item" routerLink="/users">Users</a>
+                <a *ngIf = "currentRoute === '/splash'"class="item" routerLink="/help">Help</a>
+                
+                <div *ngIf="loginButtonStatus && !disableAll" class="right menu">
+											<a class="item" routerLink="/signup">
+												<i class="fa fa-user fa-fw" aria-hidden="true"> </i> Register
+											</a>
+										<a class="item" routerLink="/signin">
+                      <i class="fas fa-sign-in-alt fa-fw"></i> Sign In
+										</a>
+								</div><!-- end anonymous right menu -->
+
+
+                <div *ngIf="disableAll" class="right menu">
+                   
     
-      <a class="navbar-brand" >
-        <i class="fa fa-fw fa-inbox fa-lg"></i>
-        <i class="fa fa-fw fa-trophy fa-lg"></i>
-        <i class="fa fa-fw fa-question-circle fa-lg" [routerLink]="['/profile']" ></i>
-      </a>
+                    <div class="dropdown show">
+                        <i class="fas fa-sign-in-alt fa-fw"></i>
+                        <i class="fas fa-sign-in-alt fa-fw" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+          
+                      
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                          <a class="dropdown-item" href="#">Action</a>
+                          <a class="dropdown-item" href="#">Another action</a>
+                          <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                      </div>
 
+
+
+
+
+              </div><!-- end anonymous right menu -->
+
+							</div><!-- end top menu -->
+						</div><!-- end column -->
+					</div><!-- end grid -->
+				</div><!-- end container -->
+			</div><!-- end bar -->
+
+
+
+      <!--
       <form class="form-inline my-2 my-lg-0" (submit) = "onLoginSubmit()">
           <input *ngIf="!loginButtonStatus && !disableAll" class="form-control mr-sm-2" [(ngModel)]="email"  [ngModelOptions]="{standalone: true}" type="email" placeholder="Email" aria-label="Email">
           <input *ngIf="!loginButtonStatus && !disableAll" class="form-control mr-sm-2" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" type="password" placeholder="Password" aria-label="Password">
@@ -52,8 +62,4 @@
           <a  *ngIf="!loginButtonStatus && !disableAll" class="btn my-1 text-light btn-outline-primary" (click)="toggleLoginButton()" >Cancel</a>
           <a  *ngIf="disableAll" class="btn my-1 text-light btn-outline-primary" (click)="logOut()" >Logout</a>
       
-        </form>
-      
-
-  </div>
-</nav>
+        </form>-->

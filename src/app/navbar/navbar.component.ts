@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ValidateServiceService } from '../services/validate-service.service';
 import { NgFlashMessageService } from 'ng-flash-messages';
 import { AuthServiceService } from '../services/auth-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -10,18 +11,23 @@ import { AuthServiceService } from '../services/auth-service.service';
 })
 export class NavbarComponent implements OnInit {
 
+  path:any;
   email: String;
   password: String;
   loginButtonStatus: boolean;
-  disableAll: boolean;
+  disableAll: boolean;          //deprecated
   isLoggedIn: boolean;
   logInSubscription: any;
+  currentRoute: any;
 
   constructor(private validateService: ValidateServiceService,
     private flashMessageService: NgFlashMessageService,
-    private authService: AuthServiceService) 
+    private authService: AuthServiceService,
+    private router: Router) 
     {
 
+      this.path = require( "../../img/favicon.png");
+      router.events.subscribe((url:any) => this.currentRoute = this.router.url);
       this.isLoggedIn = authService.isLoggedIn;
       this.toggleAllInputs();
 

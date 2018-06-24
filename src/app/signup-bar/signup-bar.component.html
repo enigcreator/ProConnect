@@ -1,72 +1,39 @@
-<div *ngIf= "visibility" class="py-5" style="background-image: url('assets/IMG_418281.png');">
-  <form (submit) = "onRegisterSubmit() ">
-  <div class="container-fluid">
-    <div class="row w-100">
-      <div class="align-sef-center text-white col-md-6">
-        <h1 class="text-center text-md-left display-4">Communicate, Be together, All the time</h1>
-        <p class="lead">Why waiting if you can do it online?
-          <br>Join UCP's first online community</p>
-      </div>
-      <div class="col-md-2" id="book"></div>
-      <div class="col-md-4">
-          <div class="row spacer">
-              <div class="col-md-12">
-                <form class="form-inline">
-                  <div class="input-group">
-                    <input type="name" pattern = ".{3,15}" class="form-control px-4 " [(ngModel)]= "display_name" [ngModelOptions]="{standalone: true}" placeholder="Someone">
-                    <div class="input-group-append">
-                      <div class="btn btn-primary try" type="button">Display Name</div>
-                    </div>
+    <div class="user signup">
+        <div class="ui middle very relaxed page grid">
+          <div class="column">
+            <form class="ui form">
+              <h3 class="ui top attached header">
+                  Sign up for ProConnect
+              </h3>
+              <div class="ui attached segment">
+                  <div class="required inline field ">
+                    <label for="user_name">Username</label>
+                    <input id="user_name" name="user_name"  autofocus required>
                   </div>
-                </form>
-              </div>
-            </div>
-        <div class="row spacer">
-          <div class="col-md-12">
-            <form class="form-inline">
-              <div class="input-group">
-                <input type="email" class="form-control px-4 " [(ngModel)]= "email" [ngModelOptions]="{standalone: true}" placeholder="someone@something.com">
-                <div class="input-group-append">
-                  <div class="btn btn-primary try" type="button">Email Address</div>
-                </div>
+                  <div class="required inline field ">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" required>
+                  </div>
+                  <div class="required inline field ">
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" value= required>
+                  </div>
+                  <div class="required inline field ">
+                    <label for="retype">Re-type</label>
+                    <input id="retype" name="retype" type="password"  required>
+                  </div>
+      
+                  <div class="inline field">
+                    <label></label>
+                    <button class="ui green button">Create New Account</button>
+                  </div>
+                  <div class="inline field">
+                    <label></label>
+                    <a href="{{AppSubURL}}/user/login">Already have an account? Sign in now!</a>
+                  </div>
               </div>
             </form>
           </div>
         </div>
-        <div class="row spacer">
-            <div class="col-md-12">
-              <form class="form-inline">
-                <div class="input-group">
-                  <input type="password" class="form-control px-4 " [(ngModel)]= "password" [ngModelOptions]="{standalone: true}" placeholder="**********">
-                  <div class="input-group-append">
-                    <div class="btn btn-primary try" type="button">Password</div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        <div class="row spacer">
-            <div class="col-md-12">
-              <form class="form-inline">
-                <div class="input-group">
-                    <select class="custom-select customSize" [(ngModel)]="location"  [ngModelOptions]="{standalone: true}" aria-placeholder="Select you location">
-                        <option  type="text" *ngFor ="let x of locationsData" value="{{x.country_code}}">{{x.country_name}}</option>
-                    </select>
-                  <div class="input-group-append">
-                      <div class=" input-group-append btn btn-primary try" type="button">Location</div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        <div class="row">
-          <div class="col-md-8">
-            <p class="text-light my-1">* By signing up, you agree to our policies</p>
-          </div>
-        </div>
-        <input type="submit" class="btn btn-length btn-outline-primary text-light btn-block" value = "Sign up to ask a question?" >
       </div>
-    </div>
-  </div>
-  </form>
-</div>
+

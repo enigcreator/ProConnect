@@ -8,6 +8,10 @@ import { ChatComponent } from './chat/chat.component';
 import { CreateThreadComponent } from './create-thread/create-thread.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { SignupBarComponent } from './signup-bar/signup-bar.component';
+import { SplashComponent } from './splash/splash.component'
+
 const routes: Routes = [
   { path: '', component: HomeComponent},
   { path: 'profile', component: ProfileComponent},
@@ -15,7 +19,11 @@ const routes: Routes = [
   { path: 'users', component: UsersComponent},
   { path: 'chat/:id', component: ChatComponent},
   { path: 'create', component: CreateThreadComponent},
-  { path: 'notifications', component: NotificationsComponent}
+  { path: 'notifications', component: NotificationsComponent},
+  { path: 'signin', component: SignInComponent},
+  { path: 'signup', component: SignupBarComponent},
+  { path: 'splash', component: SplashComponent}
+  
 ]
 
 @NgModule({

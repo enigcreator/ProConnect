@@ -1,0 +1,39 @@
+<div class="user signin">
+  <div class="ui middle very relaxed page grid">
+    <div class="column">
+      <form class="ui form" (submit) = "onLoginSubmit()">
+        <h3 class="ui top attached header">
+            Sign in
+        </h3>
+
+
+        <div class="ui attached segment">
+
+          
+            <div class="required inline field ">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" [(ngModel)] = "email" autofocus required>
+            </div>
+            <div class="required inline field ">
+              <label for="Password">Password</label>
+              <input id="Password" name="password" type="password" [(ngModel)] = "password" autofocus required>
+            </div>
+
+
+
+            <div class="inline field">
+              <label></label>
+              <button class="ui green button" type="submit">Sign in</button>
+            </div>
+              <div class="inline field">
+                <label></label>
+                <a routerLink="/signup">Need an account? Sign up now.</a>
+              </div>
+        </div>
+
+
+      </form>
+    </div>
+  </div>
+</div>
+

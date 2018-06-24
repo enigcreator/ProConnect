@@ -24,6 +24,9 @@ import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 import { CreateThreadComponent } from './create-thread/create-thread.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { NotificationsService } from './services/notifications.service';
+import {SuiModule} from 'ng2-semantic-ui';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { SplashComponent } from './splash/splash.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,9 @@ import { NotificationsService } from './services/notifications.service';
     ProfileComponent,
     ChatComponent,
     CreateThreadComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    SignInComponent,
+    SplashComponent
     ],
   imports: [
     HttpModule,
