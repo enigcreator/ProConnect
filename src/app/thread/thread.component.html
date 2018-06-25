@@ -1,3 +1,4 @@
+<!--
 <div class="search-results"
 infiniteScroll
 [infiniteScrollDistance]="2"
@@ -12,220 +13,57 @@ infiniteScroll
 
 <button (click) = "onScroll()">push</button>
 
+-->
 
 
 
+<div class = "ui container">
 
 
+  <div class = "ui grid">
 
+      <div class = "row">
+  
+          <h1>
+              <span class = "fas fa-check-circle fa-fw"></span>
 
+              I can no longer work from home over VPN ?
+          </h1>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="pt-5">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-8">
-        <div class="row">
-          <div class="col-md-1"></div>
-          <div class="col-md-11">
-            <h1 class=""><b></b></h1>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-1">
-            <div class="row">
-              <div class="col-md-12">
-                <a (click) = "upVote()" class="btn btn-outline-primary btn-block btn-sm my-1">Up</a>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <h2 class="h-100 text-center"  >{{currentThread[0].votes}}</h2>
-              </div>
-            </div>
-            <a  (click) = "downVote()" class="btn btn-outline-primary btn-block btn-sm">Down</a>
-          </div>
-          <div class="col-md-11">
-            <p class="lead">{{currentThread[0].brief}}</p>
-            <md-editor name="Content" [preRender]="preRenderFunc" [(ngModel)]="original_post[0].details" [height]="'500px'" [mode]="mode_main" [options]="options" required maxlength="500"></md-editor>
-            <div class="row" style = "border-bottom: solid lightblue 2px">
-              <div class="col-md-12">
-                <ul class="list-inline py-2">
-                  <li class="list-inline-item bg-info" *ngIf ="currentThread[0].tag_0" >{{currentThread[0].tag_0}}</li>
-                  <li class="list-inline-item bg-info" *ngIf ="currentThread[0].tag_1" >{{currentThread[0].tag_1}}</li>
-                  <li class="list-inline-item bg-info" *ngIf ="currentThread[0].tag_2" >{{currentThread[0].tag_2}}</li>
-                  <li class="list-inline-item bg-info" *ngIf ="currentThread[0].tag_3" >{{currentThread[0].tag_3}}</li>
-                  <li class="list-inline-item bg-info" *ngIf ="currentThread[0].tag_4" >{{currentThread[0].tag_4}}</li>
-
-                </ul>
-              </div>
-            </div>
-
-            <!--COMMENTS HERE, INNER LOOP-->
-            <div *ngFor = "let comm of original_post[0].comments" class="row">
-              <div class="col-md-12">
-                <p><small>{{comm.brief}} </small><b>{{comm.display_name}}&nbsp;</b></p>
-              </div>
-            </div>
-             <!--COMMENTS INNER LOOP ENDS HERE-->
-
-             <div *ngIf = "isLoggedIn" class="row">
-                <form class="form-inline">
-                    <div class="input-group">
-                      <input type="text" class="form-control px-4 " [(ngModel)]= "comment" [ngModelOptions]="{standalone: true}" placeholder=" Your comment">
-                      <div class="input-group-append">
-                        <div (click) = "insertCommentMain()"class="btn btn-primary try" type="button">Add Comment</div>
-                      </div>
-                    </div>
-                  </form>
-            </div>
-          </div>
-        </div>
-
-        <!--POSTS-->
-        <!--LOOP HERE, NOT ABOVE, THAT'S THE ORIGINAL POST-->
-
-        <div *ngFor = "let p of post; let in = index" class="row my-5">
-          <div class="col-md-1">
-            <div class="row">
-              <div class="col-md-12">
-                <a href="#" class="btn btn-outline-primary btn-block btn-sm my-1">Up</a>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <h2 class="h-100 text-center">{{p.up_vote-p.down_vote}}</h2>
-              </div>
-            </div>
-            <a href="#" class="btn btn-outline-primary btn-block btn-sm">Down</a>
-          </div>
-          <div class="col-md-11">
-            <md-editor name="Content-post[in].id" [preRender]="preRenderFunc" [(ngModel)]="post[in].details" [height]="'500px'" [mode]="mode_main" [options]="options" required maxlength="500"></md-editor>
-            <div class="row">
-              <div class="col-md-8"></div>
-              <div class="col-md-4 bg-light">
-                <div class="row">
-                  <div class="col-md-12">
-                    <p class="lead text-center">Answered {{p.date_created}}</p>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 px-4">
-                    <img class="img-fluid d-block w-75 mx-auto"  width="50" height="50">
-                  </div>
-                  <div class="col-md-6">
-                    <div class="row">
-                      <div class="col-md-12">
-                        <p class="">{{p.user.display_name}}</p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="col-md-12">
-                          <a class="btn btn-primary btn-block my-1 disabled" href="#"><span class="badge badge-pill badge-secondary">{{p.user.received_thanks}}</span>&nbsp;<i class="fa fa-fw fa-check-circle"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            
-             <!--COMMENTS HERE, INNER LOOP-->
-             <div *ngFor = "let comm2 of p.comments" class="row">
-                <div class="col-md-12">
-                  <p class="lead">{{comm2.brief}} <b>{{comm2.display_name}}&nbsp;</b></p>
-                </div>
-              </div>
-               <!--COMMENTS INNER LOOP ENDS HERE-->
-           
-
-            <div *ngIf = "disableAll" class="row">
-                <form class="form-inline">
-                    <div class="input-group">
-                      <input type="text" class="form-control px-4 " [(ngModel)]= "comment" [ngModelOptions]="{standalone: true}" placeholder="Your Comment">
-                      <div class="input-group-append">
-                        <div (click) = "insertComment(p.id)"class="btn btn-primary try" type="button">Add Comment</div>
-                      </div>
-                    </div>
-                  </form>
-            </div>
-
-          </div>
-        </div>
       </div>
 
-            <!--END MAIN LOOP HERE, POSTS LOOP HERE-->
-                 
-         
-      <div class="col-md-4">
-        <div class="row">
-          <div class="col-md-12">
-            <p class="lead">Asked at {{original_post[0].date_created}}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <p class="lead">Viewed {{currentThread[0].views}} times</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <p class="lead">Answers {{currentThread[0].answers_count}}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <h1 class="">Related</h1>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <p class="lead">
-              <a href="#">HTML sections 100% height of viewport [duplicate] </a>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <p class="lead">
-              <a href="#">How to set up middle view?</a>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <p class="lead">
-              <a href="#">Does this protoype work?</a>
-            </p>
-          </div>
-        </div>
+
+      <div class = "row">
+
+          <h6>
+
+              By @Magnus26 days ago
+
+          </h6>
+
       </div>
-    </div>
+
+
+      <div class = "row">
+
+
+          <md-editor name="Content" [preRender]="preRenderFunc" [mode]="preview" [options]="options" required maxlength="500"></md-editor>
+
+
+      </div>
+
+
+
+
+
   </div>
+
+
+
+
+
+
+
 </div>
 
 
@@ -238,13 +76,21 @@ infiniteScroll
 
 
 
-<div *ngIf="isLoggedIn">
-
-<md-editor name="Content" [preRender]="preRenderFunc" [(ngModel)]="content" [height]="'500px'" [mode]="mode" [options]="options" required maxlength="500"></md-editor>
 
 
 
-<a (click) = "insertPost()">Go!</a>
 
-</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
