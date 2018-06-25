@@ -155,12 +155,11 @@ router.get('/getThreadById', (req, res, next) => {
 
 router.get('/getAllPosts', (req, res, next) => {
 
-    console.log("all called");
 
-    Thread.getAllPosts(req.query.id, (err, rows) => 
+    Thread.getAllPosts(req.query, (err, rows) => 
     {
 
-        if(err){
+        if(err || isEmptyObject(rows)){
             res.json({success: false, msg:'Failed to fetch thread data', error: err});
         }
 
@@ -192,4 +191,15 @@ router.get('/getAllTags', (req, res, next) => {
 
     });
 });
+
+
+function isEmptyObject(obj) {
+    for (var key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 module.exports = router;

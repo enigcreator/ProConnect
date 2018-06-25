@@ -3,7 +3,7 @@
 					<div class="ui grid">
 						<div class="column">
 							<div class="ui top secondary menu">
-								<a class="item brand" routerLink="/splash">
+								<a class="item brand" routerLink="/">
 									<img [src] = "path" class="ui mini image">
 								</a>
 
@@ -25,20 +25,34 @@
 
                 <div *ngIf="disableAll" class="right menu">
                    
-    
-                    <div class="dropdown show">
-                        <i class="fas fa-sign-in-alt fa-fw"></i>
-                        <i class="fas fa-sign-in-alt fa-fw" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                    <div class="dropdown show item">
+                        <i class= "fas fa-plus fa-fw"></i>
+                        <i class="fas fa-caret-down fa-fw" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
           
                       
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                          <a class="dropdown-item" href="#">Action</a>
-                          <a class="dropdown-item" href="#">Another action</a>
-                          <a class="dropdown-item" href="#">Something else here</a>
+                          <a class="dropdown-item" routerLink="/ask">Ask Question</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" routerLink="/inbox">Inbox</a>
                         </div>
                       </div>
 
 
+                      <!-- User Drop Down -->
+
+                      <div class="dropdown show item">
+                          <i class= "fa fa-user fa-fw"></i>
+                          <i class="fas fa-caret-down fa-fw" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+            
+                        
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" routerLink="/profile">My Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" (click)="logOut()">Log out</a>
+                          </div>
+                        </div>
+
+                      <!-- User Drop Down End-->
 
 
 

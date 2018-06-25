@@ -27,6 +27,8 @@ import { NotificationsService } from './services/notifications.service';
 import {SuiModule} from 'ng2-semantic-ui';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SplashComponent } from './splash/splash.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { SplashComponent } from './splash/splash.component';
     AngularFontAwesomeModule,
     AlertModule.forRoot(),
     FormsModule,
+    BrowserModule,
+    InfiniteScrollModule,
     LMarkdownEditorModule,
     NgFlashMessagesModule.forRoot()
   ],
@@ -58,6 +62,6 @@ import { SplashComponent } from './splash/splash.component';
 })
 export class AppModule { }
 
-
+platformBrowserDynamic().bootstrapModule(AppModule);
 
 

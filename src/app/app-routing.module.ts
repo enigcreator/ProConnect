@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'thread/:id', component: ThreadComponent},
   { path: 'users', component: UsersComponent},
   { path: 'chat/:id', component: ChatComponent},
-  { path: 'create', component: CreateThreadComponent},
+  { path: 'ask', component: CreateThreadComponent},
   { path: 'notifications', component: NotificationsComponent},
   { path: 'signin', component: SignInComponent},
   { path: 'signup', component: SignupBarComponent},

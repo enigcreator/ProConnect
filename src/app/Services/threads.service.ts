@@ -66,12 +66,12 @@ export class ThreadsService {
     .map(res => res.json());
   }
 
-  getAllPosts(id)
+  getAllPosts(id,start,end)
   {
     let headers = new Headers;
 
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/thread/getAllPosts?id='+id, {headers: headers})
+    return this.http.get('http://localhost:3000/thread/getAllPosts?id='+id+'&start='+start+'&end='+end+'', {headers: headers})
     .map(res => res.json());
   }
 

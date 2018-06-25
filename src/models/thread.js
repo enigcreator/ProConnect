@@ -163,10 +163,11 @@ module.exports.getThreadTags = function (id, callback)
     mySqlQuery("select name from tags where id in (select tag_0 from thread where id = 39)", null, callback);
 }
 
-module.exports.getAllPosts = function (id, callback)
+module.exports.getAllPosts = function (data, callback)
 {
 
-    mySqlQuery("select * from post where id in (select post_id from threads_posts where thread_id = "+id+")", null, callback);
+    console.log(data);
+    mySqlQuery("select * from post where id in (select post_id from threads_posts where thread_id = "+data.id+" ) ORDER BY date_created ASC LIMIT "+data.start+","+data.end+"", null, callback);
 
 }
 
