@@ -5,3 +5,4 @@ module.exports.getAllLocations = function(callback)
 {
     mySqlQuery('select * from locations',null, callback);
 }
+

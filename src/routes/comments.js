@@ -12,6 +12,7 @@ const passport = require('passport');
        
         Comment.insert(req.body, (err, rows) =>
         {
+            console.log(err);
     
         // console.log(err);
           if(err){

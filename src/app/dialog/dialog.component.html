@@ -1,0 +1,62 @@
+<div class="modal-content">
+    <!--header-->
+    <div class="modal-header">
+      <div class = "modal-row">
+        <h3 class="modal-title">{{data.title}}</h3>
+        </div>
+
+        <div class = "row">
+
+       
+            <ul>
+              <li>Thanks for contributing an answer to ProConnect!</li>
+              <li>
+                  Please be sure to answer the question. Provide details and share your research!
+              </li>
+            </ul>
+
+
+      
+            
+
+            <ul>
+              <li>But avoid …</li>
+                <li>
+                    Asking for help, clarification, or responding to other answers.
+                </li>
+                <li>
+                    Making statements based on opinion; back them up with references.
+                </li>
+                <li>
+                    To learn more, see our tips on writing great answers
+                </li>
+              </ul>
+     
+  
+        </div>
+    </div>
+    <!--body-->
+    <div *ngIf="data.type == 0"class="modal-body low_height">
+        
+  
+        <strong>ProConnect MarkDown Editor &trade;</strong> 
+     
+        <md-editor name="Content" [preRender]="preRenderFunc" [(ngModel)]="data.data" [height]="'200px'" [mode]="mode" [options]="options" required maxlength="500"></md-editor>
+
+    </div>
+    <div *ngIf="data.type == 1"class="modal-body">
+        <mat-form-field class="example-full-width">
+        <input matInput [(ngModel)]="data.data">
+            <input matInput #message maxlength="256" placeholder="Comment" [(ngModel)]="data.data">
+            <mat-hint align="start"><strong>Don't disclose personal info</strong> </mat-hint>
+            <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+          </mat-form-field>
+    </div>
+    <!--footer-->
+    <div class="modal-footer">
+        <i  matTooltip="Save it" class ="fa fa-check fa-3x fa fw" (click)="onDone()"></i>
+        <i  matTooltip="Cancel and leave" class ="fa fa-times fa-3x fa fw" (click)="onClose()"></i>
+    </div>
+</div>
+
+

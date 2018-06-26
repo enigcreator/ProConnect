@@ -3,6 +3,11 @@ import { ThreadsService } from '../services/threads.service';
 import { Thread } from '../thread';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthServiceService } from '../services/auth-service.service';
+import { Modal } from 'ngx-modialog/plugins/bootstrap';
+import { overlayConfigFactory } from 'ngx-modialog';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { DialogComponent } from '../dialog/dialog.component';
+
 @Component({
   selector: 'app-thread',
   templateUrl: './thread.component.html',
@@ -10,13 +15,13 @@ import { AuthServiceService } from '../services/auth-service.service';
 })
 export class ThreadComponent implements OnInit {
 
+  mode:any = "preview";
   currentThread: Thread;
   currentParamId: number;
   currentThreadPostIds: any;
   original_post: any;
   post: any = new Array;
   temp: number;
-  content:any;
   comment: any;
   mode_main: any;
   logInSubscription: any;
@@ -24,11 +29,12 @@ export class ThreadComponent implements OnInit {
   disableAll: boolean;
   start_post:number = 0;
   continue_load: boolean = true;
-
-
-  private noOfItemsToShowInitially: number = 2;
+  round:String = 'round';
+  tData:Text ;
+  success:Boolean = false;
+  private noOfItemsToShowInitially: number = 3;
     // itemsToLoad - number of new items to be displayed
-    private itemsToLoad: number = 2;
+    private itemsToLoad: number = 3;
     // 18 items loaded for demo purposes
 
     // List that is going to be actually displayed to user
@@ -39,7 +45,10 @@ export class ThreadComponent implements OnInit {
   constructor(private threadService: ThreadsService,
               private router: Router,
               private activatedRoute : ActivatedRoute,
-              private authService: AuthServiceService) {
+              private authService: AuthServiceService,
+              public dialog: MatDialog)
+  
+              {
               this.mode_main = "preview";
               this.isLoggedIn = authService.isLoggedIn;
    
@@ -112,7 +121,7 @@ export class ThreadComponent implements OnInit {
   get_all_posts()
   {
 
-    console.log(this.start_post, this.itemsToLoad)
+
     this.threadService.getAllPosts(this.currentParamId,this.start_post,this.itemsToLoad).subscribe((data)=>{
       if(data.success)
       {
@@ -134,6 +143,7 @@ export class ThreadComponent implements OnInit {
       else
       {
         this.continue_load = false;
+        this.start_post += this.itemsToLoad;
       }
     });
 
@@ -148,6 +158,8 @@ export class ThreadComponent implements OnInit {
       if(data.success)
       {
         this.original_post = data.result;
+
+        console.log(data.result);
 
         this.threadService.get_all_comments(this.original_post[0].id).subscribe((data) => {
 
@@ -206,6 +218,7 @@ export class ThreadComponent implements OnInit {
 
           this.temp = data.result.id;
           this.currentThread = data.result;
+
           
           this.get_original_post();
 
@@ -230,24 +243,52 @@ export class ThreadComponent implements OnInit {
 
 }
 
- /* insertPost()
+  insertPost(data:Text)
   {
 
-    this.threadService.insert_post({"details": this.content, "author": this.authService.user.id,"thread": this.currentParamId}).subscribe((data) => {
-
-      if(data.success)
-      {
-        this.get_all_posts();
-        this.content="";
-      }
-    });
+    this.inner_query_insert_post(data).then (
+      ()=>this.setAssoc()
+    );
+    
   
-  }*/
+  }
 
-  insertComment(id)
+  inner_query_insert_post(data:Text)
   {
+    return new Promise((res,rej)=>{
+      this.threadService.insert_post({"details": data, "author": this.authService.user.id,"thread": this.currentParamId}).subscribe((data) => {
+
+        if(data.success)
+        {
+  
+          res();
+        }
+        else
+        {
+          rej();
+        }
+      });
+    })
+  }
+
+
+  setAssoc(){
+    return new Promise((res, rej) => {
+
+      this.threadService.setAssociation({"user_id": this.authService.user.id, "thread_id": this.currentParamId}).subscribe(data =>{
+
+
+      });
+
+    });
+  }
+
+  insertComment(id, data)
+  {
+    this.setAssoc();
     console.log("here");
-    this.threadService.insert_comment({"brief":this.comment, "author":this.authService.user.id, "post_id": id}).subscribe(data => {
+
+    this.threadService.insert_comment({"brief":data, "author":this.authService.user.id, "post_id": id}).subscribe(data => {
 
       if(data.success)
       {
@@ -284,4 +325,52 @@ export class ThreadComponent implements OnInit {
   }
 
 
+  open(): void {
+    let dialogRef = this.dialog.open(DialogComponent, {
+      width: '100%',
+      data: {type:0, title: "Enter you Reply" , data: this.tData, success: this.success}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.result.success)
+      {
+        console.log("here");
+       this.insertPost(result.result.data);
+      }
+
+    });
+  }
+
+  open_comment(id:number): void {
+    let dialogRef = this.dialog.open(DialogComponent, {
+      width: '100%',
+      data: {type:1, title: "Enter you Comment" , data: this.tData, success: this.success}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.result.success)
+      {
+        console.log("here");
+       this.insertComment(id,result.result.data)
+      }
+
+    });
+  }
+
+
+  upVote(id)
+  {
+    this.threadService.upVote({"user_id": this.authService.user.id, "post_id": id}).subscribe(data =>{
+    });
+
+
+
+  }
+ downVote(id)
+  {
+    this.threadService.downVote({"user_id": this.authService.user.id, "post_id": id}).subscribe(data =>{
+    });
+
+  }
 }
+

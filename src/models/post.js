@@ -1,5 +1,5 @@
 const mySqlQuery = require('../database.js');
-
+var mysql   = require('mysql');
 class postModel {
 
     constructor(){
@@ -30,11 +30,11 @@ module.exports.insert = function (post, callback)
 {
 
 
-        mySqlQuery("insert into post (details, author) values ('"+post.details+"',  '"+post.author+"' );", null, (err, result_2) => {
+        mySqlQuery("insert into post (details, author) values ("+mysql.escape(post.details)+","+post.author+")", (err, result_2) => {
 
             if (err)
             {
-               // console.log(err);
+                console.log(err);
                 callback(err, null);
             }
             else
@@ -44,8 +44,8 @@ module.exports.insert = function (post, callback)
 
                     if(err)
                     {
-                        //console.log(err);
-                        // throw err;
+                        console.log(err);
+                        throw err;
                         callback(err, null);
                     }
                     else
@@ -54,13 +54,20 @@ module.exports.insert = function (post, callback)
 
                         if(err)
                         {
-                           // console.log(err);
-                            // throw err;
+                           console.log(err);
+                            throw err;
                             callback(err, null);
                         }
                         else
                         {
-                            callback(null, result_2.insertId);
+                            mySqlQuery("update thread set answers_count = answers_count +1 where id = "+post.thread+";",null, (err, rows_3) =>{
+
+                                if(err)
+                                    throw err;
+                                    else
+                                    callback(null, result_2.insertId);
+                            });
+                           
 
                         }
 
@@ -101,9 +108,18 @@ module.exports.insert_simple = function (post, callback)
 
 module.exports.getPostbyId = function (id, callback) {
 
-mySqlQuery("select * from post A where A.id = '"+id+"'", null, callback);
+    
+mySqlQuery("select A.id as id, DATEDIFF(CURRENT_TIMESTAMP,A.date_created) AS days, A.details, A.date_created,A.up_vote,A.down_vote,B.display_name,B.id as uid,B.join_date from post A inner join User B on A.author = B.id where A.id ="+id, null, callback);
 
 
 }
 
 
+module.exports.upVote = function (req, callback)
+{
+    mySqlQuery("update post set up_vote = up_vote + 1 where id = "+req.post_id+"", null, callback);
+}
+module.exports.downVote = function (req, callback)
+{console.log(req);
+    mySqlQuery("update post set down_vote = down_vote + 1 where id = "+req.post_id+"", null, callback);
+}

@@ -150,4 +150,34 @@ export class ThreadsService {
     return this.http.post('http://localhost:3000/thread/updateOp',data, {headers: headers})
     .map(res => res.json());
   }
+
+
+  setAssociation(data)
+  {
+    console.log(data);
+    let headers = new Headers;
+
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/thread/setAssoc',data, {headers: headers})
+    .map(res => res.json());
+  }
+
+
+  upVote(data)
+  {
+    let headers = new Headers;
+
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/posts/upVote',data, {headers: headers})
+    .map(res => res.json());
+  }
+  downVote(data)
+  {
+    let headers = new Headers;
+
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/posts/downVote',data, {headers: headers})
+    .map(res => res.json());
+  }
+
 }

@@ -192,6 +192,15 @@ router.get('/getAllTags', (req, res, next) => {
     });
 });
 
+router.post('/setAssoc', (req, res, next) => {
+  
+  Thread.setAssociation(req.body,(req, err) => {
+    res.json({success: true});
+
+  });
+   
+});
+
 
 function isEmptyObject(obj) {
     for (var key in obj) {

@@ -65,6 +65,7 @@ router.get('/getPost', (req, res, next) => {
     {
 
         if(err){
+            throw err;
             res.json({success: false, msg:'Failed to fetch post data', error: err.code});
         }
 
@@ -99,5 +100,43 @@ router.get('/getCommentIds', (req, res, next) => {
 
 
 });
+
+
+router.post('/upVote', (req, res, next) => {
+  
+    Post.upVote(req.body, (err, rows) => 
+    {
+
+        if(err){
+            res.json({success: false, msg:'Failed to change vote data', error: err});
+        }
+
+        else
+        {
+            res.json({success: true, result: rows});
+        }
+
+
+    });
+     
+  });
+  router.post('/downVote', (req, res, next) => {
+  
+    Post.downVote(req.body, (err, rows) => 
+    {
+
+        if(err){
+            res.json({success: false, msg:'Failed to change vote data', error: err});
+        }
+
+        else
+        {
+            res.json({success: true, result: rows});
+        }
+
+
+    });
+     
+  });
 
 module.exports = router;

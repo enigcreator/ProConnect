@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -24,12 +24,21 @@ import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 import { CreateThreadComponent } from './create-thread/create-thread.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { NotificationsService } from './services/notifications.service';
-import {SuiModule} from 'ng2-semantic-ui';
+import { SuiModule} from 'ng2-semantic-ui';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SplashComponent } from './splash/splash.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
+import { MarkdownModule } from 'ngx-markdown';
+import { NguUtilityModule} from "ngu-utility/dist";
+import { ModalModule } from 'ngx-modialog';
+import { BootstrapModalModule } from 'ngx-modialog/plugins/bootstrap';
+import { DialogComponent } from './dialog/dialog.component';
+import { MaterialModule } from './material.module';
+import { MatDialogModule} from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AvatarModule } from 'ng2-avatar';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,24 +49,33 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
     UsersComponent,
     ProfileComponent,
     ChatComponent,
+    SplashComponent,
     CreateThreadComponent,
     NotificationsComponent,
     SignInComponent,
-    SplashComponent
-    ],
+    DialogComponent   ],
   imports: [
     HttpModule,
     BrowserModule,
     AppRoutingModule,
+    AvatarModule.forRoot(), 
     AngularFontAwesomeModule,
     AlertModule.forRoot(),
     FormsModule,
     BrowserModule,
     InfiniteScrollModule,
     LMarkdownEditorModule,
-    NgFlashMessagesModule.forRoot()
+    NgFlashMessagesModule.forRoot(),
+    MarkdownModule.forRoot(),
+    NguUtilityModule,
+    ModalModule.forRoot(),
+    BootstrapModalModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MaterialModule
   ],
-  providers: [ValidateServiceService, AuthServiceService, HelpingService, ThreadsService, UsersService, SocketService, NotificationsService], 
+  entryComponents: [DialogComponent],
+  providers: [ ValidateServiceService, AuthServiceService, HelpingService, ThreadsService, UsersService, SocketService, NotificationsService], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

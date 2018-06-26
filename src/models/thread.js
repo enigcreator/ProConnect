@@ -167,7 +167,7 @@ module.exports.getAllPosts = function (data, callback)
 {
 
     console.log(data);
-    mySqlQuery("select * from post where id in (select post_id from threads_posts where thread_id = "+data.id+" ) ORDER BY date_created ASC LIMIT "+data.start+","+data.end+"", null, callback);
+    mySqlQuery("select A.id as id, DATEDIFF(CURRENT_TIMESTAMP,A.date_created) AS days, A.details, A.date_created,A.up_vote,A.down_vote from post A where id in (select post_id from threads_posts where thread_id = "+data.id+") ORDER BY date_created ASC LIMIT "+data.start+", "+data.end+"", null, callback);
 
 }
 
@@ -175,3 +175,11 @@ module.exports.getAllTags = function (req, callback)
 {
     mySqlQuery("select * from tags", null, callback);
 }
+
+module.exports.setAssociation = function(data, callback)
+{
+    console.log(data);
+    mySqlQuery("insert into thread_associations (thread_id, user_id) values ("+data.thread_id+","+data.user_id+")", null, callback);
+
+}
+

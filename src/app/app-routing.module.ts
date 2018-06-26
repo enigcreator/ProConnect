@@ -11,7 +11,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignupBarComponent } from './signup-bar/signup-bar.component';
 import { SplashComponent } from './splash/splash.component'
-
 const routes: Routes = [
   { path: '', component: HomeComponent},
   { path: 'profile', component: ProfileComponent},
