@@ -9,11 +9,11 @@
 
 
               <!--  <a *ngIf = "currentRoute === '/splash'"class="item" >{{currentRoute}}</a> -->
-                <a *ngIf = "currentRoute === '/splash'"class="item" routerLink="/">Explore</a>
-                <a *ngIf = "currentRoute === '/splash'"class="item" routerLink="/users">Users</a>
-                <a *ngIf = "currentRoute === '/splash'"class="item" routerLink="/help">Help</a>
+                <a *ngIf = "!isLoggedIn" class="item" routerLink="/">Explore</a>
+                <a class="item" routerLink="/users">Users</a>
+                <a class="item" routerLink="/help">Help</a>
                 
-                <div *ngIf="loginButtonStatus && !disableAll" class="right menu">
+                <div *ngIf="!isLoggedIn" class="right menu">
 											<a class="item" routerLink="/signup">
 												<i class="fa fa-user fa-fw" aria-hidden="true"> </i> Register
 											</a>
@@ -21,9 +21,9 @@
                       <i class="fas fa-sign-in-alt fa-fw"></i> Sign In
 										</a>
 								</div><!-- end anonymous right menu -->
+ 
 
-
-                <div *ngIf="disableAll" class="right menu">
+                <div *ngIf="isLoggedIn" class="right menu">
                    
                     <div class="dropdown show item">
                         <i class= "fas fa-plus fa-fw"></i>
@@ -41,7 +41,8 @@
                       <!-- User Drop Down -->
 
                       <div class="dropdown show item">
-                          <i class= "fa fa-user fa-fw"></i>
+                          <avatar *ngIf = "!path2" [size] = 30 [name]="authService.user.display_name" [displayType]="'circle'"></avatar>
+                          <img *ngIf = "path2" [src] = "path2" alt="Avatar" class = "avatar">
                           <i class="fas fa-caret-down fa-fw" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
             
                         
@@ -74,7 +75,7 @@
 
 
 
-
+<!--
 
 
       <div class="following bar">
@@ -86,7 +87,7 @@
                 <div class="ui top secondary menu">
   
                 <!--  <a *ngIf = "currentRoute === '/splash'"class="item" >{{currentRoute}}</a> -->
-                  <a class="item" routerLink="/">Home</a>
+                <!--  <a class="item" routerLink="/">Home</a>
                  
 
                   
@@ -94,10 +95,10 @@
                     <!--  <button class="ui green button" >
                         <i class="fas fa-sign-in-alt fa-fw"></i> Create Topic
                       </button> -->
-                  </div><!-- end anonymous right menu -->
+                 <!-- </div><!-- end anonymous right menu -->
   
   
-                 
+          
 
 
 
@@ -105,13 +106,12 @@
 
 
 
-
-                
+             <!--   
   
-                </div><!-- end top menu -->
-              </div><!-- end column -->
-            </div><!-- end grid -->
-          </div><!-- end container -->
+                </div><!-- end top menu -
+              </div><!-- e
+            </div><!-- end g
+          </div><!-- end cont
         </div><!-- end bar -->
 
 

@@ -1,65 +1,129 @@
-<div class=" py-4">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <h2 class="text-left my-1">Latest</h2>
-        </div>
-        <div class="col-md-6">
-          <ul class="nav nav-tabs py-1">
+
+<div class="card text-center border">
+        <div class="card-header">
+                
+            <div class = "row">
+
+
+            </div>
+
+
+          <ul class="nav nav-tabs card-header-tabs nav-justified">
             <li class="nav-item">
-              <a (click) = "get_latest_threads(50)" class="active nav-link">Latest</a>
+              <a class="nav-link active" >Categories</a>
             </li>
             <li class="nav-item">
-              <a (click) = "getHot(50)" class="nav-link">Hot</a>
+              <a class="nav-link" (click) = "navigate(newest)">Newest</a>
+            </li> 
+            <li class="nav-item">
+              <a class="nav-link" routerLink = '/dhome/top' >Top</a>
+            </li>
+            <li *ngIf = "isLoggedIn" class="nav-item">
+              <a class="nav-link "(click) = "subscribed()">Subscribed</a>
             </li>
             <li class="nav-item">
-              <a (click)="getTop(50)" class="nav-link">Top</a>
+              <a class="nav-link" href="#">FAQ</a>
             </li>
           </ul>
         </div>
-      </div>
+</div>
+        
+        
+<div class="container search-results"
+infiniteScroll
+[infiniteScrollDistance]="2"
+[infiniteScrollThrottle]="50"
+(scrolled)="onScroll()"
+[infiniteScrollDisabled]="isFullListDisplayed"
+[scrollWindow]="false">
+     
+
+        <div class="card-body">
 
 
-      <div class = "row heighter">
-      </div>
+            <div class = "row top2">
 
-      <div *ngFor = "let i of threads  " class="row mydiv" style = "border-top:1px solid lightblue; border-bottom:1px solid lightblue;">
-        <div class="col-md-3">
-          <div class="row">
-            <div class="col-md-3">
-              <p class="lead text-center ">{{i.votes}} </p>
-              <p class="text-center text-primary ">Votes</p>
+             <div class = "col-6 CP1">
+                    <p class="light">Category</p>
+             </div>
+             <div class = "col-5">
+                    <p class="light">Latest</p>
+             </div>
+             <div class = "col-1">
+                    <p class="light">Threads</p>
+             </div>
+
+             <hr class="top"/>
+
             </div>
-            <div class="col-md-3">
-                <p class="lead text-center ">{{i.answers_count}}</p>
-                <p class="text-center text-success">Answers</p>
-              </div>
-            <div class="col-md-3">
-              <p class="lead text-center ">{{i.views}}</p>
-              <p class="text-center text-primary ">Views</p>
+        
+            <div *ngFor = "let cat of categories" class = "row">
+
+
+                    <div class = "col-6 CP1">
+
+                        <div class = "row T2">
+                            <h5><b>{{cat.name}}</b></h5>
+                        </div>
+                        <div class = "row T3">
+                            <p class="light">{{cat.brief}}</p>
+                        </div>
+                        <div class = "row T2">
+                                <div *ngFor = "let tag of cat.tags"  class="tags">
+                                     <a href = "">{{tag.name}}</a>
+                                      
+                                </div>
+                        </div>
+
+
+                    </div>
+                    <div class = "col-5 CP2">
+
+                        <div *ngFor = "let thread of cat.threads" class = "row padd_low" >
+                                
+                            <a [routerLink] = "['/thread', thread.id]" ><p class="small2">{{thread.brief}}</p></a> &nbsp;
+                            <p class = "small4 light">6h</p>
+                        </div>
+                    
+
+
+                    </div>
+                    <div class = "col-1 VA" >
+
+                        <h3 class = "light">{{cat.thread_count}}</h3>
+                        <h6 class = "light">posts</h6>
+
+                    </div>
+
+                    <hr class="top"/>
+
+
             </div>
-          </div>
+
+           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
         </div>
-        <div class="col-md-9">
-          <div class="row">
-            <div class="col-md-12">
-              <h3 class="text-secondary">
-                <a  class="text-primary" (click) = "thread_page(i.id)" style="text-decoration:none">{{i.brief}}</a>
-              </h3>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <ul  class="list-inline">
-                <li *ngFor = "let j of i.tags" class="list-inline-item bg-info btn-primary">{{j}}</li>
-              </ul>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <p class="text-right">Asked {{i.date_created}} by {{i.display_name}}</p>
-            </div>
-          </div>
-        </div>
-      
-      </div>
+
+
+
+</div>
+

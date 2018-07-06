@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ThreadsService} from '../services/threads.service';
 import { Thread } from '../thread';
 import { Router } from '@angular/router';
+import { AuthServiceService } from '../services/auth-service.service';
 
 @Component({
   selector: 'app-home',
@@ -10,13 +11,30 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  threads: Thread[];
-
+  categories: any = new Array;
+  round:String = 'round';
+  success:Boolean = false;
+  start_post:number = 0;
+  continue_load: boolean = true;
+  private noOfItemsToShowInitially: number = 5;
+  private itemsToLoad: number = 5;
+  public itemsToShow : any;
+  public isFullListDisplayed: boolean = false;
+  logInSubscription : any;
+  isLoggedIn: boolean;
+  tags_start: number = 0;
+ 
   constructor(private threadService: ThreadsService,
-              private router: Router) {
+              private router: Router,
+              private authService: AuthServiceService) {
 
-        
-    this.get_latest_threads(50);
+    this.isLoggedIn = this.authService.isLoggedIn;
+    this.logInSubscription = this.authService.logInStatusChange.subscribe((value) =>{
+
+      this.isLoggedIn = value;
+
+    });
+    this.get_categories();
 
 
    }
@@ -28,109 +46,115 @@ export class HomeComponent implements OnInit {
   }
 
 
+  onScroll() {
 
-  get_latest_threads(count)
+    console.log(this.itemsToShow);
+    if(this.continue_load)
+    {
+      this.get_categories();
+     
+    }
+  }
+
+  get_categories()
   {
-    this.threadService.get_latest_threads(count).subscribe(data => {
 
+
+    this.threadService.getAllCategory(this.start_post, this.itemsToLoad).subscribe(data => {
       if(data.success)
       {
 
-        this.threads = data.result;
+        for(let i=0; i<data.result.length ; i++)
+       {
+           this.categories.push(data.result[i]);
+       }
+
+       this.itemsToShow = this.categories.slice(0, this.noOfItemsToShowInitially);
+       this.getTags(this.tags_start);
+       this.getThreads(this.tags_start);
+       this.tags_start+=5;
+       this.noOfItemsToShowInitially += this.itemsToLoad;
+       this.start_post += this.itemsToLoad;
+
+       
+      }
+      else
+      {
+        this.continue_load = false;
+        this.start_post += this.itemsToLoad;
+      }
+    });
+
+
+  }
+
+  getTags(start)
+  {
+    for(let i=start; i<this.categories.length ; i++)
+       {
         
-        this.threads.forEach(item => {
+        this.threadService.getCategoryTags(this.categories[i].id).subscribe(data =>{
 
-          item.tags = new Array();
-
-          item.tags.push(item.tag_0.split('-')[1]);
-          item.tags.push(item.tag_1.split('-')[1]);
-          item.tags.push(item.tag_2.split('-')[1]);
-          item.tags.push(item.tag_3.split('-')[1]);
-          item.tags.push(item.tag_4.split('-')[1]);
+         // console.log(this.categories[i].id + "result =" +data.result);
+          if(data.success)
+          {
+       
+      
+              this.categories[i].tags = new Array();
+              for(let j = 0; j<data.result.length;j++)
+              {
+                this.categories[i].tags[j] = data.result[j];
+              
+            }
+    
+          }
 
         });
 
 
-
-      }
-
-    });
-
-    
-
-    
+       }
   }
 
+  getThreads(start)
+  {
+    for(let i=start; i<this.categories.length ; i++)
+       {
+        
+        this.threadService.getCategoryThreads(this.categories[i].id).subscribe(data =>{
 
-    thread_page(id)
+         // console.log(this.categories[i].id + "result =" +data.result);
+          if(data.success)
+          {
+       
+      
+              this.categories[i].threads = new Array();
+              for(let j = 0; j<data.result.length;j++)
+              {
+                this.categories[i].threads[j] = data.result[j];
+              
+            }
+    
+            console.log(this.categories[i].threads);
+          }
+
+        });
+
+
+       }
+  }
+
+    threadPage(id)
     {
       this.router.navigate(['/thread',id]);
     }
 
-
-
-    getHot(count)
+    navigate(type)
     {
-      this.threads = null;
-
-      this.threadService.get_hot_threads(count).subscribe(data => {
-
-        if(data.success)
-        {
-  
-          this.threads = data.result;
-          
-          this.threads.forEach(item => {
-  
-            item.tags = new Array();
-  
-            item.tags.push(item.tag_0.split('-')[1]);
-            item.tags.push(item.tag_1.split('-')[1]);
-            item.tags.push(item.tag_2.split('-')[1]);
-            item.tags.push(item.tag_3.split('-')[1]);
-            item.tags.push(item.tag_4.split('-')[1]);
-  
-          });
-  
-  
-  
-        }
-  
-      });
-      
+      this.router.navigate(['/dhome',"newest"]);
     }
-
-
-
-    getTop(count)
+    subscribed()
     {
-      this.threads = null;
-
-      this.threadService.get_top_threads(count).subscribe(data => {
-
-        if(data.success)
-        {
-  
-          this.threads = data.result;
-          
-          this.threads.forEach(item => {
-  
-            item.tags = new Array();
-
-            item.tags.push(item.tag_0.split('-')[1]);
-            item.tags.push(item.tag_1.split('-')[1]);
-            item.tags.push(item.tag_2.split('-')[1]);
-            item.tags.push(item.tag_3.split('-')[1]);
-            item.tags.push(item.tag_4.split('-')[1]);
-  
-          });
-  
-  
-  
-        }
-  
-      });
-      
+      this.router.navigate(['/dhome',"subscribed"]);
     }
 
 

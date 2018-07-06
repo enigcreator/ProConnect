@@ -13,6 +13,7 @@ router.post('/register', (req, res, next) => {
     newUser.password = req.body.password;
     newUser.display_name = req.body.display_name;
     newUser.location = req.body.location;
+    newUser.last_name = req.body.last_name;
  
     User.addUser(newUser, (err, rows) =>
     {
@@ -76,6 +77,7 @@ router.post('/authenticate', (req, res, next) =>
               user: 
               {
                 id: inner_rows[0].id,
+                img: inner_rows[0].img,
                 display_name: inner_rows[0].display_name,
                 join_date: inner_rows[0].join_date,
                 profile_views: inner_rows[0].profile_views,
@@ -143,6 +145,69 @@ router.get('/profile', (req, res, next) =>
     });
 
 });
+
+
+router.get('/name', (req,res, next) => {
+
+
+  User.getDisplayNameById(req.query.id, (err, rows)=> {
+
+    if (err)
+      {
+        console.log(err);
+        return res.json({success:false});
+      }
+      else
+      {
+        return res.json({success:true, result: rows});
+      }
+
+
+
+  });
+
+
+});
+router.get('/setImg', (req, res, next) => {
+ console.log("query:" +req.query);
+
+  User.setImg(req.query, (err, rows) =>
+  {
+
+      if (err)
+      {
+        console.log(err);
+        return res.json({success:false});
+      }
+      else
+      {
+        return res.json({success:true});
+      }
+
+  });
+});
+
+router.get('/getImg', (req, res, next) => {
+  console.log("query:" +req.query);
+  User.getImg(req.query, (err, rows) => {
+
+    if(err)
+      {
+        console.log(err);
+        res.send({success:false});
+      }
+      else
+      {
+        res.json({success:true, result: rows});
+      }
+
+  });
+
+
+});
+
+
+
 
 
 

@@ -17,7 +17,6 @@ export class AuthServiceService {
 
   constructor(private http: Http) {
   
-      
 
       this.authToken = JSON.parse(localStorage.getItem('authToken'));
       this.user = JSON.parse(localStorage.getItem('userData'));
@@ -31,6 +30,7 @@ export class AuthServiceService {
       {
         this.isLoggedIn = true;
         this.isSignupBarVisible = false;
+        console.log(this.user.img);
       }
 
    }
@@ -86,11 +86,16 @@ export class AuthServiceService {
     localStorage.setItem('authToken', JSON.stringify(this.authToken));
     localStorage.setItem('userData', JSON.stringify(this.user));
   }
+  updateData()
+  {
 
+    localStorage.setItem('userData', JSON.stringify(this.user));
+  }
   logOut()
   {
     this.authToken = null;
     this.user = null;
     localStorage.clear();
+    this.toggleIsLoggedIn();
   }
 }

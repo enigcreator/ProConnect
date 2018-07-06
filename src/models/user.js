@@ -8,6 +8,7 @@ class UserModel {
         this.password = null;
         this.email = null;
         this.display_name = null;
+        this.last_name = null;
         this.location = null;
     }
 }
@@ -16,6 +17,10 @@ module.exports = {
     UserModel
 };
 
+module.exports.getDisplayNameById = function (userId, callback)
+{
+    mySqlQuery("select display_name from user where id = "+userId+"", null, callback);
+}
 
 module.exports.getUserDetailById = function(userId, callback)
 {
@@ -43,7 +48,7 @@ module.exports.addUser = function(user, callback)
             newUser.password = hash;
             
 
-            mySqlQuery("insert into user (display_name, join_date, profile_views, posts_created, thanked_times, received_thanks, level, location_id) values ('"+user.display_name+"', '"+formatted+"', 0, 0, 0, 0, 0, (select id from locations where country_code = '"+user.location+"' ));", null, (err, rows) =>
+            mySqlQuery("insert into user (display_name,last_name, join_date, profile_views, posts_created, thanked_times, received_thanks, level, location_id) values ('"+user.display_name+"','"+user.last_name+"', '"+formatted+"', 0, 0, 0, 0, 0, 1);", null, (err, rows) =>
             {
                 if (err) throw err;
                 else {
@@ -85,4 +90,21 @@ module.exports.comparePassword = function(candidatePassword, hash, callback)
 
       callback(null, isMatch);
     });
+  }
+
+  module.exports.setImg = function (data, callback)
+  {
+  
+  
+        console.log(data.id);
+      var temp = data.path.slice(26,);
+      console.log(temp);
+      var temp2 = "http://localhost:3000/assets/images/uploads/" + temp;
+    console.log(temp2);
+      mySqlQuery("update user set img = '"+temp2+"' where id = "+data.id+"", null, callback);
+  }
+
+  module.exports.getImg = function (data, callback)
+  {
+      mySqlQuery("select img from user where id = "+data.id+"", null, callback);
   }

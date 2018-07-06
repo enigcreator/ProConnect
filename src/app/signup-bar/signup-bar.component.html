@@ -1,39 +1,57 @@
     <div class="user signup">
         <div class="ui middle very relaxed page grid">
-          <div class="column">
-            <form class="ui form">
+          <div *ngIf= "!isLoggedIn" class="column">
+            <form class="ui form" (submit) = "onRegisterSubmit()">
               <h3 class="ui top attached header">
                   Sign up for ProConnect
               </h3>
+              
+
               <div class="ui attached segment">
+                
+                    <div *ngIf = "warning" class="ui message">
+                      <p>{{warning_message}}</p>
+                    </div>
+                    <div *ngIf = "success" class="ui  message">
+                        <p>{{success_message}}</p>
+                      </div>
+                    
+
                   <div class="required inline field ">
-                    <label for="user_name">Username</label>
-                    <input id="user_name" name="user_name"  autofocus required>
+                    <label for="user_name">First Name</label>
+                    <input id="user_name" [(ngModel)] = "display_name"name="user_name"  autofocus required>
                   </div>
                   <div class="required inline field ">
+                      <label for="last_name">Last Name</label>
+                      <input id="last_name" [(ngModel)] = "last_name" name="last_name"  autofocus required>
+                    </div>
+                  <div class="required inline field ">
                     <label for="email">Email</label>
-                    <input id="email" name="email" type="email" required>
+                    <input id="email" [(ngModel)] = "email" name="email" type="email" required>
                   </div>
                   <div class="required inline field ">
                     <label for="password">Password</label>
-                    <input id="password" name="password" type="password" value= required>
+                    <input id="password" [(ngModel)] = "password" name="password" type="password" value= required>
                   </div>
                   <div class="required inline field ">
                     <label for="retype">Re-type</label>
-                    <input id="retype" name="retype" type="password"  required>
-                  </div>
-      
-                  <div class="inline field">
-                    <label></label>
-                    <button class="ui green button">Create New Account</button>
+                    <input id="retype" [(ngModel)] = "re_password" name="retype" type="password"  required>
                   </div>
                   <div class="inline field">
                     <label></label>
-                    <a href="{{AppSubURL}}/user/login">Already have an account? Sign in now!</a>
+                    <button class="ui green button" >Create New Account</button>
+                  </div>
+                  <div class="inline field">
+                    <label></label>
+                    <a routerLink = "/signin">Already have an account? Sign in now!</a>
                   </div>
               </div>
             </form>
           </div>
         </div>
+
+        <div *ngIf = "isLoggedIn" class="ui message">
+            <p>Sorry, you are already logged in.</p>
+          </div>
       </div>
 

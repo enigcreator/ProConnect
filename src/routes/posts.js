@@ -8,9 +8,12 @@ const passport = require('passport');
 router.post('/insert', (req, res, next) => {
     
 
+    console.log(req.body);
     newPost = new Post.postModel();
     newPost.details = req.body.details;
     newPost.author = req.body.author;
+    newPost.display_name = req.body.last_display_name;
+    newPost.imgPath = req.body.imgPath;
 
 
     if(req.body.thread >0 && req.body.thread<999)
@@ -43,7 +46,6 @@ router.post('/insert_simple', (req, res, next) => {
     if(req.body.thread >0 && req.body.thread<999)
     newPost.thread = req.body.thread;
 
-   console.log("I am post, got thread :", req.body.thread); 
 
     Post.insert_simple(newPost, (err, rows) =>
     {

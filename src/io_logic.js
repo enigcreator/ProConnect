@@ -39,7 +39,7 @@ exports = module.exports = function (io)
                 else
                  {
                      console.log(data);
-                    mysqlQuery("select * from message where from_user_id in ("+data.from+","+data.to+")  and to_user_id in ("+data.from+","+data.to+") order by time desc limit 5;", null , (err, rows) =>
+                    mysqlQuery("select * from message where from_user_id in ("+data.from+","+data.to+")  and to_user_id in ("+data.from+","+data.to+") order by time desc limit 1;", null , (err, rows) =>
                     {
                         if(err) throw err;
                         else
@@ -67,7 +67,7 @@ exports = module.exports = function (io)
         socket.on('chat', function (data) {
 
             
-            mysqlQuery("select * from message where from_user_id in ("+data.from+","+data.to+")  and to_user_id in ("+data.from+","+data.to+") order by time desc limit 5;", null , (err, rows) =>
+            mysqlQuery("select * from message where from_user_id in ("+data.from+","+data.to+")  and to_user_id in ("+data.from+","+data.to+") order by time desc limit 1;", null , (err, rows) =>
         {
             if(err) throw err;
             else

@@ -3,6 +3,7 @@ import { ValidateServiceService } from '../services/validate-service.service';
 import { NgFlashMessageService } from 'ng-flash-messages';
 import { AuthServiceService } from '../services/auth-service.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sign-in',
@@ -18,23 +19,24 @@ export class SignInComponent implements OnInit {
   isLoggedIn: boolean;
   logInSubscription: any;
   currentRoute: any;
+  success: boolean = false;
+  warning: boolean = false;
+  success_message: String;
+  warning_message: String;
 
   constructor(private validateService: ValidateServiceService,
     private flashMessageService: NgFlashMessageService,
     private authService: AuthServiceService,
     private router: Router)  { 
 
+      this.isLoggedIn = this.authService.isLoggedIn;
 
-      this.isLoggedIn = authService.isLoggedIn;
-      this.toggleAllInputs();
+      this.logInSubscription = this.authService.logInStatusChange.subscribe((value) =>{
 
-      
-      this.logInSubscription = this.authService.logInStatusChange.subscribe((value) =>
-    {
-      
         this.isLoggedIn = value;
-        this.toggleAllInputs();
-    });
+        console.log("value: "+this.isLoggedIn);
+      });
+
 
 
     }
@@ -74,7 +76,6 @@ export class SignInComponent implements OnInit {
   onLoginSubmit()
   {
 
-    console.log("here");
     const user = {
       email: this.email,
       password: this.password
@@ -82,23 +83,17 @@ export class SignInComponent implements OnInit {
 
     if(this.validateService.validateEmail(user.email) == false)
     {
-      this.flashMessageService.showFlashMessage({
-        messages: ["Please use correct email format"], 
-        dismissible: true, 
-        timeout: 1000,
-        type: 'danger'
-      });      
+      this.warning = true;
+      this.success = false;
+      this.warning_message = "Wrong email format!";     
       return false;
     }
 
     if(this.validateService.validatePassword(user.password) == false)
     {
-      this.flashMessageService.showFlashMessage({
-        messages: ["Password should be of 8 characters"], 
-        dismissible: true, 
-        timeout: 1000,
-        type: 'danger'
-      });     
+      this.warning = true;
+      this.success = false;
+      this.warning_message = "Wrong password format!";     
        return false;
     }
 
@@ -106,16 +101,13 @@ export class SignInComponent implements OnInit {
 
       if(data.success)
       {
-        this.router.navigateByUrl('/');
-        this.flashMessageService.showFlashMessage({
-          messages: ["You are successfully logged in!"], 
-          dismissible: true, 
-          timeout: 1000,
-          type: 'success'
-        });  
+        this.warning = false;
+        this.success = true;
+        this.success_message = "You are logged in! redirecting...."  ;
 
-      
+       // this.router.navigate(['/']);
         this.authService.updateTokenAndData(data.token, data.user);
+        this.authService.toggleIsLoggedIn();
         this.toggleDisableAllButton();
         this.authService.toggleSingupBarVisibility();
 
@@ -123,12 +115,10 @@ export class SignInComponent implements OnInit {
 
       else
       {
-        this.flashMessageService.showFlashMessage({
-          messages: ["Unable to login, check email and password"], 
-          dismissible: true, 
-          timeout: 1000,
-          type: 'success'
-        });  
+        this.warning = true;
+        this.success = false;
+         this.warning_message = "Wrong combination, try again";  
+         //inject flash page here
       }
 
     });
@@ -141,6 +131,8 @@ export class SignInComponent implements OnInit {
 
   logOut()
   {
+    this.warning = false;
+    this.success = false;
     this.toggleDisableAllButton();
     this.authService.logOut();
     this.authService.toggleSingupBarVisibility();

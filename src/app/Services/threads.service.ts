@@ -8,12 +8,12 @@ export class ThreadsService {
 
   
 
-  get_latest_threads(count)
+  get_latest_threads(start, limit)
   {
     let headers = new Headers;
 
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/thread/getThreadsByTime?count='+count, {headers: headers})
+    return this.http.get('http://localhost:3000/thread/getThreadsByTime?start='+start+'&limit='+limit, {headers: headers})
     .map(res => res.json());
   }
 
@@ -27,12 +27,21 @@ export class ThreadsService {
     
   }
 
-  get_top_threads(count)
+  get_top_threads(start, limit)
   {
     let headers = new Headers;
 
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/thread/getThreadsByAnswers?count='+count, {headers: headers})
+    return this.http.get('http://localhost:3000/thread/getTopThreads?start='+start+'&limit='+limit, {headers: headers})
+    .map(res => res.json());
+  }
+
+  get_thread_user(id, start, limit)
+  {
+    let headers = new Headers;
+
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/thread/getThreadUser?id='+id+'&start='+start+'&limit='+limit, {headers: headers})
     .map(res => res.json());
   }
 
@@ -132,6 +141,14 @@ export class ThreadsService {
     .map(res => res.json());
   }
 
+  getTagbyId(id)
+  {
+    let headers = new Headers;
+
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/helper/getTag?id='+id, {headers: headers})
+    .map(res => res.json());
+  }
   insertThread(data)
   {
     let headers = new Headers;
@@ -180,4 +197,60 @@ export class ThreadsService {
     .map(res => res.json());
   }
 
+  getThreadbyUserTop(id, start, limit)
+  {
+    console.log(id);
+    let headers = new Headers;
+
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/thread/getThreadsByIdVotes?id='+id+'&start='+start+'&limit='+limit, {headers: headers})
+    .map(res => res.json());
+  }
+
+  getThreadbyUser(id, start, limit)
+  {
+    let headers = new Headers;
+
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/thread/getThreadsById?id='+id+'&start='+start+'&limit='+limit, {headers: headers})
+    .map(res => res.json());
+  }
+
+  getAllCategory(start, limit)
+  {
+    let headers = new Headers;
+
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/categories/getAll?start='+start+"&limit="+limit, {headers: headers})
+    .map(res => res.json());
+
+  }
+
+  getCategoryThreads(id)
+  {
+    let headers = new Headers;
+
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/categories/getThreads?id='+id, {headers: headers})
+    .map(res => res.json());
+
+  }
+  getCategoryTags(id)
+  {
+    let headers = new Headers;
+
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/categories/getTags?id='+id, {headers: headers})
+    .map(res => res.json());
+
+  }
+  getThreadTags(id)
+  {
+    let headers = new Headers;
+
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/thread/getTags?id='+id, {headers: headers})
+    .map(res => res.json());
+
+  }
 }

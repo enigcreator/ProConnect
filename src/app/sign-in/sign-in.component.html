@@ -1,14 +1,21 @@
 <div class="user signin">
   <div class="ui middle very relaxed page grid">
-    <div class="column">
+    <div *ngIf = "!isLoggedIn" class="column">
       <form class="ui form" (submit) = "onLoginSubmit()">
         <h3 class="ui top attached header">
             Sign in
         </h3>
 
 
+
         <div class="ui attached segment">
 
+            <div *ngIf = "warning" class="ui message">
+                <p>{{warning_message}}</p>
+              </div>
+              <div *ngIf = "success" class="ui  message">
+                  <p>{{success_message}}</p>
+                </div>
           
             <div class="required inline field ">
               <label for="email">Email</label>
@@ -34,6 +41,15 @@
 
       </form>
     </div>
+
+
+    
+
+
   </div>
+
+  <div *ngIf = "isLoggedIn" class="ui message">
+      <p>Sorry, you are already logged in.</p>
+    </div>
 </div>
 

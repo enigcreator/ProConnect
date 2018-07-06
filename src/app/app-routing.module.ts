@@ -10,9 +10,12 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { ProfileComponent } from './profile/profile.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignupBarComponent } from './signup-bar/signup-bar.component';
-import { SplashComponent } from './splash/splash.component'
+import { SplashComponent } from './splash/splash.component';
+import { DeepHomeComponent } from './deep-home/deep-home.component';
+import { ConversationComponent } from './conversation/conversation.component';
 const routes: Routes = [
   { path: '', component: HomeComponent},
+  { path: 'dhome/:option', component: DeepHomeComponent},
   { path: 'profile', component: ProfileComponent},
   { path: 'thread/:id', component: ThreadComponent},
   { path: 'users', component: UsersComponent},
@@ -21,7 +24,8 @@ const routes: Routes = [
   { path: 'notifications', component: NotificationsComponent},
   { path: 'signin', component: SignInComponent},
   { path: 'signup', component: SignupBarComponent},
-  { path: 'splash', component: SplashComponent}
+  { path: 'splash', component: SplashComponent},
+  { path: 'inbox', component: ConversationComponent}
   
 ]
 

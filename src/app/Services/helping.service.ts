@@ -20,8 +20,21 @@ export class HelpingService {
 
   }
 
+  getTag(id)
+  {
+    let headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/helper/getTag?id='+id+'', {headers: headers})
+    .map(res => res.json());
+  }
 
-  
+  get_chat(from, to)
+  {
+    let headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/helper/getAllChat?to='+to+'&from='+from+'', {headers: headers})
+    .map(res => res.json());
+  }
 
   
 }

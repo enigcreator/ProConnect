@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   path:any;
+  path2: any;
   email: String;
   password: String;
   loginButtonStatus: boolean;
@@ -27,20 +28,33 @@ export class NavbarComponent implements OnInit {
     {
 
       this.path = require( "../../img/favicon.png");
+    
+      
+        
       router.events.subscribe((url:any) => this.currentRoute = this.router.url);
       this.isLoggedIn = authService.isLoggedIn;
       this.toggleAllInputs();
 
+
+      if(this.isLoggedIn == true)
+        if(this.authService.user.img != null || this.authService.user.img != "")
+          this.path2 = this.authService.user.img;
+        else
+          this.path2 = false;
+      else
+          this.path2 = false;
       
-      this.logInSubscription = this.authService.logInStatusChange.subscribe((value) =>
-    {
-      
+
+
+
+      this.logInSubscription = this.authService.logInStatusChange.subscribe((value) =>{
+
         this.isLoggedIn = value;
-        this.toggleAllInputs();
-    });
+
+      });
 
      }
-
+ 
 
   
 
@@ -76,71 +90,6 @@ export class NavbarComponent implements OnInit {
     this.disableAll = !this.disableAll;
   }
 
-  onLoginSubmit()
-  {
-
-    const user = {
-      email: this.email,
-      password: this.password
-    }
-
-    if(this.validateService.validateEmail(user.email) == false)
-    {
-      this.flashMessageService.showFlashMessage({
-        messages: ["Please use correct email format"], 
-        dismissible: true, 
-        timeout: 1000,
-        type: 'danger'
-      });      
-      return false;
-    }
-
-    if(this.validateService.validatePassword(user.password) == false)
-    {
-      this.flashMessageService.showFlashMessage({
-        messages: ["Password should be of 8 characters"], 
-        dismissible: true, 
-        timeout: 1000,
-        type: 'danger'
-      });     
-       return false;
-    }
-
-    this.authService.authenticateUser(user).subscribe(data => {
-
-      if(data.success)
-      {
-        this.flashMessageService.showFlashMessage({
-          messages: ["You are successfully logged in!"], 
-          dismissible: true, 
-          timeout: 1000,
-          type: 'success'
-        });  
-
-      
-        this.authService.updateTokenAndData(data.token, data.user);
-        this.toggleDisableAllButton();
-        this.authService.toggleSingupBarVisibility();
-
-      }
-
-      else
-      {
-        this.flashMessageService.showFlashMessage({
-          messages: ["Unable to login, check email and password"], 
-          dismissible: true, 
-          timeout: 1000,
-          type: 'success'
-        });  
-      }
-
-    });
-
-
-
-
-
-  }
 
   logOut()
   {

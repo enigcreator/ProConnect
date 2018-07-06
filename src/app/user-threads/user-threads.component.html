@@ -1,0 +1,55 @@
+ 
+       <div class = "search-results style-1"
+       infiniteScroll
+       [infiniteScrollDistance]="1"
+       [infiniteScrollThrottle]="150"
+       (scrolled)="onScroll()"
+       [infiniteScrollDisabled]="isFullListDisplayed"
+       [scrollWindow]="false">
+   
+ 
+     <div class = "container ">
+ 
+       <div class = "row " *ngFor = "let thread of threads">
+ 
+         <div class = "col-10">
+ 
+           <div class = "row">
+ 
+              <p class="lead">
+                  <i class="fas fa-quote-left fa-fw"></i> &nbsp; {{thread.brief}}
+             </p>
+ 
+            </div>
+            <div class = "row padd_bottom_low">
+              <p class = "font-italic">
+                {{thread.date_created | date}}
+              </p>
+            </div>
+ 
+         </div>
+ 
+
+         
+               <div class = "col-2">
+ 
+               <div class = "row">
+                  <h6> 0</h6>&nbsp;<i class = "fas fa-pencil-alt fa-md fa-fw"></i>
+               </div>
+               <div class = "row">
+                  <h6>0</h6>&nbsp;<i class = "fas fa-heart fa-md fa-fw"></i>
+               </div>
+             </div>
+ 
+ 
+         <div class = "row"></div>
+         <hr class="half-rule"/>
+ 
+       </div>
+ 
+       
+ 
+ 
+ 
+ 
+     </div>

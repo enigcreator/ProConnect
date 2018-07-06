@@ -21,6 +21,7 @@ module.exports.insert = function(req, callback)
 
                 if(err)
                 {
+                    console.log(err);
                     throw err;
                     callback(err, null);
                }

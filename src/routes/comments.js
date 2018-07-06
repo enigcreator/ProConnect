@@ -10,6 +10,7 @@ const passport = require('passport');
     
     // add a class model here, right now skipping
        
+    console.log("HERE" + req.body);
         Comment.insert(req.body, (err, rows) =>
         {
             console.log(err);

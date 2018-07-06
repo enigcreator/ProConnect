@@ -60,11 +60,16 @@ module.exports.insert = function (post, callback)
                         }
                         else
                         {
-                            mySqlQuery("update thread set answers_count = answers_count +1 where id = "+post.thread+";",null, (err, rows_3) =>{
+                            console.log(post);
+                            mySqlQuery("update thread set last_time = CURRENT_TIMESTAMP, answers_count = answers_count +1, last_display_name = '"+post.display_name+"', last_author = '"+post.author+"',last_img='"+post.imgPath+"' where id = "+post.thread+";",null, (err, rows_3) =>{
 
                                 if(err)
+                                {
+                                    console.log(err);
                                     throw err;
-                                    else
+                                    
+                                }
+                                else
                                     callback(null, result_2.insertId);
                             });
                            

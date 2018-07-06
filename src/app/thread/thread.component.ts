@@ -27,20 +27,15 @@ export class ThreadComponent implements OnInit {
   logInSubscription: any;
   isLoggedIn : boolean;
   disableAll: boolean;
+  tData:Text ;
+  round:String = 'round';
+  success:Boolean = false;
   start_post:number = 0;
   continue_load: boolean = true;
-  round:String = 'round';
-  tData:Text ;
-  success:Boolean = false;
   private noOfItemsToShowInitially: number = 3;
-    // itemsToLoad - number of new items to be displayed
-    private itemsToLoad: number = 3;
-    // 18 items loaded for demo purposes
-
-    // List that is going to be actually displayed to user
-    public itemsToShow : any; //= this.items.slice(0, this.noOfItemsToShowInitially);
-    // No need to call onScroll if full list has already been displayed
-    public isFullListDisplayed: boolean = false;
+  private itemsToLoad: number = 3;
+  public itemsToShow : any;
+  public isFullListDisplayed: boolean = false;
 
   constructor(private threadService: ThreadsService,
               private router: Router,
@@ -67,7 +62,7 @@ export class ThreadComponent implements OnInit {
 
   onScroll() {
 
-    console.log(this.itemsToShow);
+   // console.log(this.itemsToShow);
     if(this.continue_load)
     {
       this.get_all_posts();
@@ -106,7 +101,7 @@ export class ThreadComponent implements OnInit {
   get_all_comments_in_posts()
   {
 
-    console.log("post length : "+ this.post.length);
+   // console.log("post length : "+ this.post.length);
     for(let i=this.start_post; i<this.post.length  ; i++)
     {
        this.threadService.get_all_comments(this.post[i].id).subscribe((data)=>{
@@ -132,13 +127,14 @@ export class ThreadComponent implements OnInit {
        }
        
 
+       
        this.get_all_comments_in_posts();
        this.get_all_users_in_posts();
        this.itemsToShow = this.post.slice(0, this.noOfItemsToShowInitially);
        this.noOfItemsToShowInitially += this.itemsToLoad;
        this.start_post += this.itemsToLoad;
 
-        console.log(this.itemsToShow);
+       // console.log(this.itemsToShow);
       }
       else
       {
@@ -159,17 +155,18 @@ export class ThreadComponent implements OnInit {
       {
         this.original_post = data.result;
 
-        console.log(data.result);
+       // console.log(data.result);
 
-        this.threadService.get_all_comments(this.original_post[0].id).subscribe((data) => {
+          this.threadService.get_all_comments(this.original_post[0].id).subscribe((data) => {
 
           if(data.success)
           {
+           // console.log("DATA" + data.result);
           this.original_post[0].comments = data.result;
         //  this.post.push(this.original_post[0]);
           }
           else
-          console.log("FALSE");
+        //  console.log("FALSE");
 
           this.onScroll();
 
@@ -177,7 +174,7 @@ export class ThreadComponent implements OnInit {
         
       }
 
-      else console.log("false");
+     //console.log("false");
     });
 
   }
@@ -194,7 +191,7 @@ export class ThreadComponent implements OnInit {
     }
     else
     {
-      console.log("false");
+     // console.log("false");
     }
 
     });
@@ -218,17 +215,13 @@ export class ThreadComponent implements OnInit {
 
           this.temp = data.result.id;
           this.currentThread = data.result;
-
+          this.getTags();
           
           this.get_original_post();
-
+          
          
 
-          this.currentThread[0].tag_0 = (this.currentThread[0].tag_0.split('-')[1]);
-          this.currentThread[0].tag_1 = (this.currentThread[0].tag_1.split('-')[1]);
-          this.currentThread[0].tag_2 = (this.currentThread[0].tag_2.split('-')[1]);
-          this.currentThread[0].tag_3 = (this.currentThread[0].tag_3.split('-')[1]);
-          this.currentThread[0].tag_4 = (this.currentThread[0].tag_4.split('-')[1]);
+         
         }
       });
 
@@ -246,17 +239,17 @@ export class ThreadComponent implements OnInit {
   insertPost(data:Text)
   {
 
-    this.inner_query_insert_post(data).then (
+    this.inner_query_insert_post(data, this.authService.user).then (
       ()=>this.setAssoc()
     );
     
   
   }
 
-  inner_query_insert_post(data:Text)
+  inner_query_insert_post(data:Text, user:any)
   {
     return new Promise((res,rej)=>{
-      this.threadService.insert_post({"details": data, "author": this.authService.user.id,"thread": this.currentParamId}).subscribe((data) => {
+      this.threadService.insert_post({"details": data, "author": user.id, "last_display_name":user.display_name,"imgPath":user.img,"thread": this.currentParamId}).subscribe((data) => {
 
         if(data.success)
         {
@@ -286,7 +279,7 @@ export class ThreadComponent implements OnInit {
   insertComment(id, data)
   {
     this.setAssoc();
-    console.log("here");
+    //console.log("here");
 
     this.threadService.insert_comment({"brief":data, "author":this.authService.user.id, "post_id": id}).subscribe(data => {
 
@@ -300,9 +293,41 @@ export class ThreadComponent implements OnInit {
   }
 
 
+  getTags()
+  {
+    this.currentThread[0].tags = new Array();
+
+        this.threadService.getThreadTags(this.currentThread[0].id).subscribe(data =>{
+
+         // console.log(this.threads[i].id + "result =" +data.result);
+         
+        // console.log("RESULT: "+data.result);
+
+          if(data.success)
+          {
+       
+      
+              this.currentThread[0].tags = new Array();
+              for(let j = 0; j<data.result.length;j++)
+              {
+                this.currentThread[0].tags[j] = data.result[j];
+              
+            }
+
+        //    console.log("TAGS: " + this.currentThread[0].tags);
+    
+          }
+         
+
+        });
+
+
+  }
+
+
   insertCommentMain()
   {
-    console.log("here");
+   // console.log("here");
     this.threadService.insert_comment({"brief":this.comment, "author":this.authService.user.id, "post_id": this.original_post[0].id}).subscribe(data => {
 
       if(data.success)
@@ -313,8 +338,8 @@ export class ThreadComponent implements OnInit {
           {
           this.original_post[0].comments = data.result;
           }
-          else
-          console.log("FALSE");
+          
+       //   console.log("FALSE");
 
       });
 
@@ -334,8 +359,10 @@ export class ThreadComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result.result.success)
       {
-        console.log("here");
+      //  console.log("here");
        this.insertPost(result.result.data);
+       this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
+       this.router.navigate(["/thread",this.currentParamId]));
       }
 
     });
@@ -350,27 +377,49 @@ export class ThreadComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result.result.success)
       {
-        console.log("here");
-       this.insertComment(id,result.result.data)
+       // console.logconsole.log("here");
+       this.insertComment(id,result.result.data);
+       this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
+       this.router.navigate(["/thread",this.currentParamId]));
       }
 
     });
   }
 
 
-  upVote(id)
+  upVote(id, i)
   {
     this.threadService.upVote({"user_id": this.authService.user.id, "post_id": id}).subscribe(data =>{
     });
 
+   // console.log("index : " + i);
+    this.post[id].up_vote++;
+    this.itemsToShow[i].up_vote++;
 
 
   }
- downVote(id)
+ downVote(id, i)
   {
     this.threadService.downVote({"user_id": this.authService.user.id, "post_id": id}).subscribe(data =>{
     });
+    this.post[id].down_vote++;
+    this.itemsToShow[i].down_vote++;
+  }
+  upVoteOP(id)
+  {
+    this.threadService.upVote({"user_id": this.authService.user.id, "post_id": id}).subscribe(data =>{
+    });
+
+    this.original_post[0].up_vote++;
+
 
   }
+ downVoteOP(id)
+  {
+    this.threadService.downVote({"user_id": this.authService.user.id, "post_id": id}).subscribe(data =>{
+    });
+    this.original_post[0].down_vote++;
+  }
+
 }
 

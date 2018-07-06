@@ -20,11 +20,12 @@
       </form>
    
 
-
+    
 
     <div class="form-group">
         <b><label for="exampleFormControlInput1">Your Post Details </label></b>
         <md-editor name="Content" [preRender]="preRenderFunc" [(ngModel)]="content" [height]="'500px'" [mode]="mode" [options]="options" required maxlength="500"></md-editor>
+        <input type = "number" [ngModelOptions]="{standalone: true}" [(ngModel)] = "cat_id" label ="category _id">
     </div>
   </form>
 

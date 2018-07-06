@@ -7,7 +7,7 @@ export class ValidateServiceService {
 
 
   validateRegister(user) {
-    if(user.display_name == undefined || user.email == undefined || user.location == undefined || user.password == undefined) {
+    if(user.display_name == undefined || user.last_name == undefined || user.re_password == undefined || user.email == undefined ||  user.password == undefined) {
         return false;
     } else {
       return true;

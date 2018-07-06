@@ -1,0 +1,167 @@
+
+<div class="card text-center border">
+    <div class="card-header">
+            
+        <div class = "row">
+
+
+        </div>
+
+
+      <ul class="nav nav-tabs card-header-tabs nav-justified">
+        <li class="nav-item">
+
+            <a  class="nav-link" routerLink = '/' >Categories</a>
+  
+        </li>
+        <li class="nav-item">
+
+          <a *ngIf = "OPTION == 'newest'" class="nav-link active" (click) = "newest()">Newest</a>
+          <a *ngIf = "OPTION != 'newest'" class="nav-link" (click) = "newest()">Newest</a>
+
+        </li> 
+        <li class="nav-item">
+
+          <a *ngIf = "OPTION == 'top'" class="nav-link active" (click) = "top()">Top</a>
+          <a *ngIf = "OPTION != 'top'" class="nav-link" (click) = "top()">Top</a>
+
+        </li>
+        <li *ngIf = "isLoggedIn" class="nav-item">
+
+            <a *ngIf = "OPTION == 'subscribed'" class="nav-link active" (click) = "subscribed()">Subscribed</a>
+            <a *ngIf = "OPTION != 'subscribed'" class="nav-link" (click) = "subscribed()">Subscribed</a>
+  
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">FAQ</a>
+        </li>
+      </ul>
+    </div>
+</div>
+    
+<div class = "container-fluid search-results style-1"
+             infiniteScroll
+             [infiniteScrollDistance]="1"
+             [infiniteScrollThrottle]="150"
+             (scrolled)="onScroll()"
+             [infiniteScrollDisabled]="isFullListDisplayed"
+             [scrollWindow]="false">
+
+  <div class = "container ">
+
+    <div class="card-body">
+
+
+        <div class = "row top2">
+
+         <div class = "col-5 CP1">
+                <p class="light">Topic</p>
+         </div>
+         <div class = "col-3">
+                <p class="light">Category</p>
+         </div>
+         <div class = "col-1">
+                <p class="light">Users</p>
+         </div>
+         <div class = "col-1">
+               <p class="light">Replies</p>
+         </div>
+         <div class = "col-1">
+                <p class="light">Votes</p>
+         </div>
+         <div class = "col-1">
+                <p class="light">Latest</p>
+         </div>
+
+
+         <hr class="top"/>
+
+        </div>
+
+
+    
+        <div *ngFor = "let thread of threads" class = "row">
+
+
+                <div class = "col-5 CP1">
+
+                    <div class = "row T2">
+
+                        <p [routerLink] = "['/thread', thread.id]" class="lead">
+                            {{thread.brief}}
+                        </p>
+
+                    </div>
+                    <div class = "row T2">
+                        <div *ngFor = "let tag of thread.tags" class="tags">
+                                <a *ngIf = "tag.name != 'null'" href="">{{tag.name}}</a>
+                            </div>
+                    </div>
+
+
+                </div>
+                <div class = "col-3 CP2 VA2">
+
+                    <div class = "row " >
+                            
+                      <p ><b>{{thread.name}}</b></p>
+                        
+                    </div>
+   
+
+                  </div>
+
+                <div class = "col-1 CP2 VA3" >
+
+                  <div class = "row light">
+
+                    <avatar [size] = 30 [name]="thread.display_name" [displayType]="'circle'"></avatar> &nbsp;
+                    <avatar *ngIf = "thread.last_display_name != ''" [size] = 30 [name]="thread.last_display_name" [displayType]="'circle'"></avatar>
+                  </div>
+
+
+                </div>
+                <div class = "col-1 CP1 VA4" >
+
+                  <div class = "row ">
+                      <p class = "light"><b>{{thread.answers_count}}</b></p>
+
+                  </div>
+
+                </div>
+                <div class = "col-1 CP1 VA4" >
+
+                    
+                    <div class = "row ">
+                        <p class = "light green_text">{{thread.votes}}</p>
+                    </div>
+
+                </div>
+                <div class = "col-1 CP1 VA4" >
+
+                    <div class = "row ">
+                      <p *ngIf="thread.last_time!= null" class = "light">{{thread.last_time | date}}</p>
+                      <p *ngIf="thread.last_time == null" class = "light">No Post</p>
+                  </div>
+
+                </div>
+
+
+
+                <hr class="top"/>
+        </div>
+
+        
+
+  
+        
+
+        
+
+    </div>
+
+
+
+</div>
+
+</div>

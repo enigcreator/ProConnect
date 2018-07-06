@@ -21,6 +21,7 @@ router.post('/insert', (req, res, next) => {
         if(err){
             return res.json({success: false, msg:'Failed to insert thread', error: err});
           } else {
+              console.log(rows);
             return res.json({success: true, msg:'Thread inserted',insertId:rows});
           }
         });
@@ -31,12 +32,13 @@ router.post('/insert', (req, res, next) => {
 router.post('/updateOp', (req, res, next) => {
     let post_id = req.body.id;
     let thread_id = req.body.thread;
-    console.log("I am thread here to update OP got thread id" ,req.body.thread);
-    console.log("I am thread here to update OP got postt id", req.body.id);
+   
+    
     Thread.updateOp({id: post_id, thread: thread_id}, (err, rows) => {
 
         if(err){
-            return res.json({success: false, msg:'Failed to update thread', error: err.code});
+            console.log("ACTUAL" + err + req.body.thread);
+            return res.json({success: false, msg:'Failed to update thread', error: err});
           } else {
             return res.json({success: true, msg:'Thread update'});
           }
@@ -49,11 +51,14 @@ router.post('/updateOp', (req, res, next) => {
 router.get('/getThreadsByTime', (req, res, next) => {
 
 
-    Thread.getByTime(req.query.count, (err, rows) => {
+    Thread.getByTime(req.query, (err, rows) => {
 
         if(err){
+
+            console.log(err);
             return res.json({success: false, msg:'An error occured', error: err});
           } else {
+             
             return res.json({success: true, result: rows});
           }
         
@@ -81,10 +86,62 @@ router.get('/getThreadsByViews', (req, res, next) => {
 });
 
 
-router.get('/getThreadsByAnswers', (req, res, next) => {
+router.get('/getThreadsByIdVotes', (req, res, next) => {
 
 
-    Thread.getByAnswers(req.query.count, (err, rows) => {
+    Thread.getByIdVotes(req.query, (err, rows) => {
+
+        if(err){
+            return res.json({success: false, msg:'An error occured', error: err});
+          } else {
+            return res.json({success: true, result: rows});
+          }
+        
+
+    });
+
+
+});
+
+router.get('/getThreadsById', (req, res, next) => {
+
+
+    Thread.getById(req.query, (err, rows) => {
+
+        if(err){
+            return res.json({success: false, msg:'An error occured', error: err});
+          } else {
+            return res.json({success: true, result: rows});
+          }
+        
+
+    });
+
+
+});
+
+router.get('/getThreadUser', (req, res, next) => {
+
+
+    Thread.getByUser(req.query, (err, rows) => {
+
+        if(err){
+            console.log(err);
+            return res.json({success: false, msg:'An error occured', error: err});
+          } else {
+              console.log(rows);
+            return res.json({success: true, result: rows});
+          }
+        
+
+    });
+
+
+});
+router.get('/getTopThreads', (req, res, next) => {
+
+
+    Thread.getByIdVotes(req.query, (err, rows) => {
 
         if(err){
             return res.json({success: false, msg:'An error occured', error: err});
@@ -199,6 +256,30 @@ router.post('/setAssoc', (req, res, next) => {
 
   });
    
+});
+
+
+
+router.get('/getTags', (req, res, next) => {
+
+    Thread.getTags(req.query.id, (err, rows) => {
+    
+
+    
+        if(err || isEmptyObject(rows))
+        {
+            res.json({success: false});
+            
+        }
+        else
+        {
+            res.json({success: true, result: rows});
+        }
+    
+    
+    
+    });
+    
 });
 
 

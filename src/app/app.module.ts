@@ -39,6 +39,12 @@ import { MatDialogModule} from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AvatarModule } from 'ng2-avatar';
+import { AceEditorModule } from 'ng2-ace-editor';
+import { FileSelectDirective } from 'ng2-file-upload';
+import { UserThreadsComponent } from './user-threads/user-threads.component';
+import {NgxAutoScrollModule} from "ngx-auto-scroll";
+import { DeepHomeComponent } from './deep-home/deep-home.component';
+import { ConversationComponent } from './conversation/conversation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,8 +59,13 @@ import { AvatarModule } from 'ng2-avatar';
     CreateThreadComponent,
     NotificationsComponent,
     SignInComponent,
-    DialogComponent   ],
+    DialogComponent,
+    FileSelectDirective,
+    UserThreadsComponent,
+    DeepHomeComponent,
+    ConversationComponent   ],
   imports: [
+    AceEditorModule,
     HttpModule,
     BrowserModule,
     AppRoutingModule,
@@ -72,7 +83,8 @@ import { AvatarModule } from 'ng2-avatar';
     BootstrapModalModule,
     MatDialogModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    NgxAutoScrollModule
   ],
   entryComponents: [DialogComponent],
   providers: [ ValidateServiceService, AuthServiceService, HelpingService, ThreadsService, UsersService, SocketService, NotificationsService], 

@@ -19,6 +19,7 @@ module.exports = {
 
 module.exports.insert = function (thread, callback) {
 
+    console.log(thread);
     var tags = thread.tags;
     if(tags.length>0)
     {
@@ -26,91 +27,164 @@ module.exports.insert = function (thread, callback) {
         mySqlQuery("insert into thread (brief, category_id) values ('"+thread.brief+"', '"+thread.cat_id+"')", null, (err, rows) => 
         {
 
-            
-            if(err)
-               {
+                if (err) {
+
                     callback(err, null);
-               }
+                }
+                else {
 
-            else
-            {
-            // code for adding tags intelligently
-                for (let i=0;i<tags.length;i++)
+
+                mySqlQuery("insert into category_threads values ("+thread.cat_id+","+rows.insertId+")", null, (err, start) => {
+
+                if (err)
                 {
+                        callback(err, null);
+                }
 
-        
-                    mySqlQuery("select id from tags where name = '"+tags[i]+"'", null, (err, rows_1) =>
-                    {
-        
+
+                else
+                {
+                    mySqlQuery("update categories set thread_count = thread_count + 1 where id = "+thread.cat_id+" ", null, (err, result2) => {
+
+                        console.log(result2);
                         if (err)
                         {
+                            console.log(err);
                             // throw err;
                         }
-
-                        else if(rows_1[0] == null)
+                        else
                         {
-                            mySqlQuery("insert into tags (name) values ('"+tags[i]+"');", null, (err, rows_2) => 
+                            for (let i=0;i<tags.length;i++)
+                         {
+
+            
+                        mySqlQuery("select id from tags where name = '"+tags[i]+"'", null, (err, rows_1) =>
+                        {
+            
+                            if (err)
                             {
-                                if (err)
+                                // throw err;
+                            }
+
+                            else if(rows_1[0] == null)
+                            {
+                                mySqlQuery("insert into tags (name) values ('"+tags[i]+"');", null, (err, rows_2) => 
                                 {
-                                    // throw err;
+                                    if (err)
+                                    {
+                                        // throw err;
+                                    }
+
+                                    else {
+
+                                    mySqlQuery("INSERT INTO `thread_tags` (`thread_id`, `tag_id`) VALUES ("+rows.insertId+", "+rows_2.insertId+");", null, (err, result) => {
+
+                                        if (err)
+                                        {
+                                            console.log(err);
+                                            // throw err;
+                                        }
+                
+                                    });
                                 }
 
-                                else {
+                                });
+                            }
 
-                                mySqlQuery("update thread set tag_"+i+" = '"+(rows_2.insertId+'-'+tags[i])+"' where id = "+rows.insertId+";", null, (err, result) => {
+
+                            else
+                            {
+
+                                mySqlQuery("update thread set tag_"+i+" = '"+(rows_1[0].id+'-'+tags[i])+"' where id = "+rows.insertId+";", null, (err, result) => {
 
                                     if (err)
                                     {
                                         console.log(err);
                                         // throw err;
                                     }
-
+                                    else 
+                                    {
+                                        mySqlQuery("update tags set threads_count = threads_count + 1 where id = "+rows_1[0].id+";", null, (err, result) => {
+                                            if (err)
+                                            {
+                                                console.log(err);
+                                                // throw err;
+                                            }
+                            
+                                        });
+                                    }
                                 });
+
                             }
 
-                            });
-                        }
+                        });           
 
-
-                        else
-                        {
-
-                            mySqlQuery("update thread set tag_"+i+" = '"+(rows_1[0].id+'-'+tags[i])+"' where id = "+rows.insertId+";", null, (err, result) => {
-
-                                if (err)
-                                {
-                                    console.log(err);
-                                    // throw err;
-                                }
-                                else 
-                                {
-                                    mySqlQuery("update tags set threads_count = threads_count + 1 where id = "+rows_1[0].id+";", null, (err, result) => {
-                                        if (err)
-                                        {
-                                            console.log(err);
-                                            // throw err;
-                                        }
-                        
-                                    });
-                                }
-                            });
+                    }
 
                         }
 
-                    });           
+                    });
+                // code for adding tags intelligently
+                    
+
+                    callback(null, rows.insertId);
 
                 }
 
-                callback(null, rows.insertId);
 
-            }
+                    });
+            
+                
+
+        }
         });
+        
     }
 
     else {
 
-        mySqlQuery("insert into thread (brief, category_id) values ('"+thread.brief+"', '"+thread.cat_id+"')", null, callback);
+        console.log("executing without tags");
+        mySqlQuery("insert into thread (brief, category_id) values ('"+thread.brief+"', '"+thread.cat_id+"')", null, (err, rows) => {
+
+            if(err)
+            {
+                callback(err, null);
+                console.log(err);
+            }
+            else
+            {
+                mySqlQuery("insert into category_threads values ("+thread.cat_id+","+rows.insertId+")", null, (err, start) => {
+
+                    if(err)
+                    {
+                        callback(err, null);
+                        console.log(err);
+
+                    }
+                    else
+                    {
+                        mySqlQuery("update categories set thread_count = thread_count + 1 where id = "+thread.cat_id+" ", null, (err, result2) => {
+
+                            if (err)
+                            {
+                                console.log(err);
+                                callback(err, null);
+                                // throw err;
+                            }
+                            else
+                            {
+                                callback(null, rows.insertId);
+                            }
+
+                        });
+                        
+                    }
+                });
+
+            }
+
+
+        });
         
     }
 
@@ -125,7 +199,7 @@ module.exports.getThreadPostIds = function (id, callback) {
 
 module.exports.getThreadById = function (id, callback) {
 
-    mySqlQuery("select D.*, C.id as user_id, C.display_name, C.join_date from user C inner join (select A.*, B.author, B.up_vote-B.down_vote as votes from thread A inner join post B where A.original_post_id = B.id) as D where C.id = D.author and D.id = '"+id+"'", null, callback);
+    mySqlQuery("select E.name, F.* from categories E inner join (select D.*, C.id as user_id, C.display_name, C.join_date from user C inner join (select A.*, B.author, B.up_vote-B.down_vote as votes from thread A inner join post B where A.original_post_id = B.id) as D where C.id = D.author and D.id = "+id+") F on E.id = F.category_id", null, callback);
 }
 
 module.exports.getNotifications = function (id, callback) {
@@ -139,18 +213,33 @@ module.exports.updateOp = function (req, callback) {
 
 }
 
-module.exports.getByTime = function (count, callback) {
+module.exports.getByTime = function (data, callback) {
 
-    mySqlQuery("select D.*, C.id as user_id, C.display_name, C.join_date from user C inner join (select A.*, B.author,B.date_created, B.up_vote-B.down_vote as votes from thread A inner join post B where A.original_post_id = B.id) as D where C.id = D.author order by D.date_created desc limit "+count+"", null, callback);
+
+    mySqlQuery("select E.name, F.* from categories E INNER Join (select DATEDIFF(CURRENT_TIMESTAMP,D.date_created) days , D.*, C.id as user_id, C.display_name, C.join_date from user C inner join (select A.*, B.author,B.date_created,B.details, B.up_vote-B.down_vote as votes from thread A inner join post B where A.original_post_id = B.id) as D where C.id = D.author order by D.date_created) F on E.id = F.category_id  order by date_created desc limit "+data.start+", "+data.limit+"", null, callback);
 
 }
 
+
+module.exports.getByIdVotes = function (data, callback) {
+    mySqlQuery("select E.name, F.* from categories E INNER Join (select DATEDIFF(CURRENT_TIMESTAMP,D.date_created) days , D.*, C.id as user_id, C.display_name, C.join_date from user C inner join (select A.*, B.author,B.date_created,B.details, B.up_vote-B.down_vote as votes from thread A inner join post B where A.original_post_id = B.id) as D where C.id = D.author order by D.date_created) F on E.id = F.category_id ORDER BY votes desc limit "+data.start+", "+data.limit+"", null, callback);
+}
+
+module.exports.getById = function (data, callback) {
+    mySqlQuery("select D.details, D.*, C.id as user_id, C.display_name, C.join_date from user C inner join (select A.*, B.author,B.date_created,B.details, B.up_vote-B.down_vote as votes from thread A inner join post B where A.original_post_id = B.id AND B.author = "+data.id+") as D where C.id = D.author  limit "+data.start+", "+data.limit+"", null, callback);
+}
 module.exports.getByViews = function (count, callback) {
   
     mySqlQuery("select D.*, C.id as user_id, C.display_name, C.join_date from user C inner join (select A.*, B.author, B.up_vote-B.down_vote as votes from thread A inner join post B where A.original_post_id = B.id) as D where C.id = D.author order by views desc limit "+count+"", null, callback);
 
 }
 
+module.exports.getByUser = function (data, callback) {
+
+    console.log(data);
+    mySqlQuery("select E.name, F.* from categories E INNER Join (select DATEDIFF(CURRENT_TIMESTAMP,D.date_created) days , D.*, C.id as user_id, C.display_name, C.join_date from user C inner join (select A.*, B.author,B.date_created,B.details, B.up_vote-B.down_vote as votes from thread A inner join post B where A.original_post_id = B.id) as D where C.id = D.author order by D.date_created) F on E.id = F.category_id where author = "+data.id+" limit "+data.start+", "+data.limit+"", null, callback);
+
+}
 
 module.exports.getByAnswers = function (count, callback) {
   
@@ -183,3 +272,24 @@ module.exports.setAssociation = function(data, callback)
 
 }
 
+
+module.exports.getTags = function (id, callback)
+{
+
+    console.log(id);
+    mySqlQuery("select * from tags where id in (select tag_id from thread_tags where thread_id = "+id+")", null, (err, rows)=>{
+
+        if (err)
+        {
+            callback(err,null);
+        }
+        else
+        {
+            callback(null, rows);
+        }
+
+
+    });
+
+
+}

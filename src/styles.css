@@ -1,5 +1,96 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+.search-results {
+
+  width:100%;
+  overflow: scroll;
+  overflow-x: hidden;
+  height: 80%;
+}
+
+.style-1::-webkit-scrollbar {
+  width: 6px;
+  background-color: #F5F5F5;
+} 
+
+.noborder{
+
+
+  border-radius: 0px;
+}
+
+.button {
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+.padd_right {
+  padding-right: 4%;
+}
+
+.padd_right_lv1{
+
+  padding-right: 1.5%;
+}
+
+.padd_right_lv2{
+
+  padding-right: 3%;
+}
+
+
+
+
+.padd_low {
+  padding-bottom: 0.5%;
+}
+
+.padd {
+  padding-bottom: 3%;
+}
+
+.padd_high {
+  padding-bottom: 4%;
+}
+
+.padd_left_low0 {
+  padding-left: 2%
+}
+.padd_left_low1 {
+  padding-left: 5%
+}
+
+.padd_left_low {
+  padding-left: 3%
+}
+.padd_left_low2 {
+  padding-left: 6%
+}
+.padd_left {
+  padding-left: 8%;
+}
+
+.padd_left_high {
+  padding-left: 10%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 body { 
   font-family: Roboto, Arial, sans-serif;
   margin: 0;

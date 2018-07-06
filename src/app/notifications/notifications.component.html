@@ -1,6 +1,61 @@
-<a *ngFor = "let i of notifications"  class="list-group-item list-group-item-action flex-column align-items-start">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">{{i.notification}}</h5>
+<div class = "container">
+
+    <div class = "row padd_top padd_left">
+    
+    
+      <div class = "col-1">
+          <p class="light">Type</p>
+      </div>
+      <div class = "col-9">
+        <div class = "row">
+          <p class="light">Content</p>
+        </div>
+      </div>
+      <div class = "col-2">
+        <div class = "row">
+          <p class="light"></p>
+        </div>
+      </div>
+    
+      <hr class = "top"/>
+    
     </div>
-   <button (click) = "route_thread(i.thread_id)" class="btn btn-outline-primary">Go to that thread?</button>
-  </a>
+    
+    <div class = "row padd_left">
+    
+      <div class = "col-1 no-padding">
+        <h4 class="light-no-wrap">
+          New Post!
+        </h4>
+    
+      </div>
+    
+      <div class = "col-9 no-padding">
+    
+        <div class = "row">
+          <p class ="lead" ><b>Toyota Mark X Catalytic Converter</b></p>
+        </div>
+    
+        <div class = "row">
+          <p class = "light ">Hello! How are you what's up with you! </p> <p class="light font-weight-bold font-italic">&nbsp; - by <a href="">enigcreator </a> 6th July</p>
+        </div>
+    
+        <hr  />
+      </div>
+    
+      <div class = "col-2 padd_left">
+    
+          <i class="fas fa-trash-alt fa-2x"></i>
+    
+      </div>
+    
+      
+    
+    </div>
+    
+    
+    
+    
+    
+    
+    </div>

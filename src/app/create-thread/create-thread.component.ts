@@ -14,8 +14,15 @@ import { AuthServiceService } from '../services/auth-service.service';
 
     title: String;
     content: String;
+    cat_id: number = 0;
+    tag_0: String;
+    tag_1: String;
+    tag_2: String;
+    tag_3: String;
+    tag_4: String;
    
-    constructor(private threadService: ThreadsService) {
+    constructor(private threadService: ThreadsService,
+    private authService: AuthServiceService) {
   
           
      }
@@ -67,14 +74,18 @@ import { AuthServiceService } from '../services/auth-service.service';
         return new Promise((res, rej) => {
 
 
-        this.threadService.insertThread({'brief': this.title, "category_id" : 1, 'tags': ['ten']}).subscribe(data => {
+        this.threadService.insertThread({'brief': this.title, "category_id" : this.cat_id, 'tags': [this.tag_0, this.tag_1,this.tag_2,this.tag_3,this.tag_4]}).subscribe(data => {
 
+          console.log(this.cat_id);
           if(data.success == true)
           {
+            console.log("TRUE :" + data);
+
             res(data.insertId);
           }
           else
           {
+            console.log("HERE :" + data);
             rej(data);
           }
   
@@ -89,7 +100,7 @@ import { AuthServiceService } from '../services/auth-service.service';
     {
       return new Promise((res, rej) => {
 
-      this.threadService.insert_post_simple({'details': this.content, 'author': 1, 'thread': id}).subscribe(data => {
+      this.threadService.insert_post_simple({'details': this.content, 'author': this.authService.user.id, 'thread': id}).subscribe(data => {
 
         if(data.success == true)
         {

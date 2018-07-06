@@ -1,4 +1,59 @@
-<<<<<<< HEAD
-{{user.name}}
-=======
->>>>>>> master
+<div class="user profile">
+	<div class="ui container">
+		<div class="ui grid">
+			<div class="ui five wide column">
+				<div class="ui card">
+		
+						<a class="image poping up" href="" id="profile-avatar" data-content="avatar" data-variation="inverted tiny" data-position="bottom center">
+							<img [src] = "path" target="_blank" title="Hamza"/>
+						</a>
+
+					<div class="content">
+						<span class="header text center">Hamza</span>
+						<span class="username text center" (click)="showPicker = true">Change Avatar</span>
+						<input *ngIf = "showPicker" type="file" name="photo" class="form-control-file text center" ng2FileSelect [uploader]="uploader" label="Pick Avatar" />
+						<button *ngIf = "showPicker" type="button" class="btn btn-light center" (click)="uploader.uploadAll(); showPicker = false" [disabled]="!uploader.getNotUploadedItems().length">Save!</button>
+					</div>
+					<div class="extra content">
+						<ul class="text black">
+					
+							<li><i class="fas fa-map-signs fa-fw"></i>Lahore</li>
+						
+						
+								<li>
+										<i class="fas fa-comment-alt fa-fw"></i>
+									<a href="" rel="nofollow">email</a>
+								</li>
+							
+
+							<li><i class="fas fa-clock fa-fw"></i> date</li>
+							<li><i class="fas fa-magic fa-fw"></i> Forum Admin</li>
+	
+
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="ui eleven wide column">
+					<mat-tab-group>
+							<mat-tab label="About"> 
+									<h1 class="display-4"><b>Hamza Muzaffar</b></h1>
+									<h3 class=""><b>Bachelors Computer Science, University of Central Punjab</b></h3>
+									<markdown data="hello"></markdown>
+									<h3 class="padd_top">Favorite Tags</h3>
+									<div class = "tags">
+											<i class="fas fa-tags fa-lg fa-fw"></i>
+											<a href="http://www.jquery2dotnet.com/search/label/css">CSS</a> <a href="http://www.jquery2dotnet.com/search/label/Javascript">Java Script</a>
+											<a href="http://www.jquery2dotnet.com/search/label/jquery">jQuery</a> <a href="http://www.jquery2dotnet.com/search/label/html5">HTML5</a> <a href="http://www.jquery2dotnet.com/search/label/css3">CSS3</a>
+									</div> 
+
+							</mat-tab>
+							<mat-tab label="Top Posts"> <app-user-threads [options] = "{user_id: user.id, selection: 'top'}"></app-user-threads></mat-tab>
+					</mat-tab-group>
+				
+			</div>
+		</div>
+	</div>
+</div>
+

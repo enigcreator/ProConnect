@@ -9,6 +9,7 @@ export class Thread {
     answers_count: number;
     date_created: Date;
     tags : any;
+    details: Text;
     tag_0 : String;
     tag_1 : String;
     tag_2 : String;

@@ -1,391 +1,320 @@
-<!--
-<div class="search-results"
+
+<div class = "container-fluid search-results style-1" 
 infiniteScroll
-[infiniteScrollDistance]="2"
+[infiniteScrollDistance]="10"
 [infiniteScrollThrottle]="50"
 (scrolled)="onScroll()"
 [infiniteScrollDisabled]="isFullListDisplayed"
 [scrollWindow]="false">
-    <div *ngFor="let item of itemsToShow;  let i = index">
-      <span> {{i + ' ' + item.id}} </span>
-    </div>
+
+<!--Title Row-->
+
+ <div class = "row title">
+    <blockquote class="blockquote">
+        <h4 class="display-4">{{currentThread[0].brief}}</h4>
+        <p class="blockquote-footer no-padding"><strong>{{currentThread[0].name}}</strong> </p>
+        <p class ="light small2" >Created by <a href="">{{currentThread[0].display_name}}</a> on {{original_post[0].date_created | date}}</p>
+    </blockquote>
 </div>
-
-<button (click) = "onScroll()">push</button>
-
--->
-
-
-    <!--Original Post Block End-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!--Reply Loop Here-->
-
-    <div class = "search-results"
-    infiniteScroll
-    [infiniteScrollDistance]="1"
-    [infiniteScrollThrottle]="150"
-    (scrolled)="onScroll()"
-    [infiniteScrollDisabled]="isFullListDisplayed"
-    [scrollWindow]="false">
-
-
-
-
-
-
-
-
-
-
-    <div class="ui container ">
-
-
-
-        <!--Original Post Static Block -->  
+        <div class = "row padd_left_low">
     
-    
-        <div class = "row padd_high">
-          <div class="ui grid">
-    
-              <div class="fifteen wide column">
-            
-              <div class = "row padd_low">
-                  <h1>
-                        
-                      <span class = "fas fa-check-circle fa-lg fa-fw"></span>
-                      {{currentThread[0].brief}}
-                  </h1>
-              </div>
-        
-        
-              <div class = "row padd_left  padd">
-
-                  <h6 *ngIf="original_post[0].days>=1"> 
-                        <span class = "fas fa-check-circle fa-fw"></span>
-                        <a href="">{{original_post[0].display_name}}</a> {{original_post[0].days}} day(s) ago
-                    </h6>
-                    <h6 *ngIf="original_post[0].days == 0"> 
-                            <span class = "fas fa-check-circle fa-fw"></span>
-                            <a href="">{{original_post[0].display_name}}</a> today
-                    </h6>
-              </div>
-        
-        
-              <div class = "row padd_right padd padd_left_low">
-                  <markdown [data]="original_post[0].details"></markdown>
-              </div>
-              
-        
-              <div class = "row">
-              <div class="following bar">
-                  <div class="ui container">
-                    <div class="ui grid">
-                      <div class="column">
-                        <div class="ui top secondary menu">
-        
-                            <a class = "item">
-                                <h5>{{currentThread[0].answers_count}} Answers </h5>
-                            </a>
-                            
-                        <div  class="right menu ">
-        
-        
-                            <a class = "item">
-                                <i  matTooltip="Link yourself to this topic" class ="fas fa-link fa-lg fa-fw" (click)="setAssoc()"></i>
-                            </a>
-        
-                            <a class = "item">
-                                <i  matTooltip="Post an answer to this topic" class ="fas fa-comments fa-lg fa-fw" (click)="open(currentThread[0].id)"></i>
-                            </a>
-        
-                            <a class = "item">
-                                <i  matTooltip="Add a comment" class ="fas fa-undo-alt fa-lg fa-fw" (click)="open_comment(original_post[0].id)" ></i>
-                            </a>
-        
-                        </div><!-- end anonymous right menu -->
-                        </div><!-- end top menu -->
-                      </div><!-- end column -->
-                    </div><!-- end grid -->
-                  </div><!-- end container -->
-                </div><!-- end bar -->
-    
-                  
-    
-    
-    
-            
-              
-              
-            </div>
-          </div>
-    
-    
-              <div class="one wide column">
-                 
-                  <div class = "rows">
-                      <i  matTooltip="Positive vote for this thread" class="fas fa-sort-up fa-fw fa-3x" (click) = "upVote(original_post[0].id)"></i>
-                  </div>
-                  <div class = "rows">
-                      <h2>&nbsp;&nbsp;{{original_post[0].up_vote - original_post[0].down_vote}}</h2>
-                  </div>
-                  <div class = "rows">
-                      <i  matTooltip="Negative vote for this thread" class="fas fa-sort-down fa-fw fa-3x" (click) = "downVote(original_post[0].id)"></i>
-                  </div>
-              </div>
-        </div>
-    
-        </div>
-    
-
-        <div *ngIf="original_post[0].comments.length>=1" class = "row padd_left_high">
-
-
-            <div  *ngFor ="let comment of original_post[0].comments" class = "row padd_left_high">
-        
-                <div class="ui grid">
-        
-        
-                  <div class = "row padd">
-        
-                    <div class ="one wide column ">
-                    <!--  <i class = "fas fa-user fa-2x"></i>-->
-                      <avatar [size] = 30 [name]="comment.display_name" [displayType]="'circle'"></avatar>
-                    </div>
-        
-        
-                    
-                    <div class="fourteen wide column">
-                  
-                    <div class = "row padd_low padd_left_low0">
-                            <h6 *ngIf="comment.days>=1"> 
-                                    <span class = "fas fa-check-circle fa-fw"></span>
-                                    <a href="">{{comment.display_name}}</a> {{comment.days}} day(s) ago
-                                </h6>
-                                <h6 *ngIf="comment.days == 0"> 
-                                        <span class = "fas fa-check-circle fa-fw"></span>
-                                        <a href="">{{comment.display_name}}</a> today
-                                    </h6>
-                    </div>
-              
-              
-                    <div class = "row padd_right padd_left_low1">
-                
-                      <h6>
-                      <markdown [data]="comment.brief"></markdown>
-                      </h6>
-                     
-                    </div>
-              
-              
-                    <div class = "row">
-                    <div class="following bar">
-                        <div class="ui container">
-                          <div class="ui grid">
-                            <div class="column">
-                              <div class="ui top secondary menu">
-                                
-                              </div><!-- end top menu -->
-                            </div><!-- end column -->
-                          </div><!-- end grid -->
-                        </div><!-- end container -->
-                      </div><!-- end bar -->
-        
-                    
-                      </div>
-                  </div>
+            <div class = "col-8">  
+                <div class="row">
+                    <i class="fas fa-tags fa-lg fa-fw"></i> &nbsp;
+                    <div *ngFor = "let tag of currentThread[0].tags" class = "tags">
+                    <a *ngIf = "tag.name!= 'null' " href="">{{tag.name}}</a>
+                </div> 
                 </div>
+             </div>
+
+            <div class = "col-2">
+                <div class = "row">
+                <i class = "fas fa-pencil-alt fa-lg fa-fw"></i>&nbsp;<p class = "lead">{{currentThread[0].answers_count}} Answers</p> &nbsp;
+                &nbsp;<i class = "fas fa-heart fa-lg fa-fw" (click)="setAssoc()"></i>&nbsp;<p class = "lead">Like</p>
+                </div>
+            </div>
+
+            <div class = "col-2">
+                <div class = "row">
+                    <i class="fas fa-plus fa-lg fa-fw" (click)="open(currentThread[0].id)"></i>&nbsp;<p class = "lead">Add Answere</p>&nbsp;
+                </div>
+            </div>
+
+            
+        </div>
+
+        <hr class = "top"/>
+
+
+<!--Information Row-->
+
+<div class = "row">
+
+
+
+    <!--Blank Space on Left of the page-->
+
+
+    <div class = "col-1">
         
-              </div>
-          
-        
-        </div>
-        
-        
-        </div>
-
-
-        <!--Original Post Static Block -->  
-    
-    
-        <div class = "row padd_left_low" *ngFor="let post of itemsToShow">
-
-    <div class="ui grid">
-  
-
-        <div class = "row padd padd_left_high middle">
-          
-        </div>
-
-
-        <div class = "row padd">
-        <div class ="one wide column ">
-            <avatar [size] = 50 [name]="post.user.display_name" [displayType]="'circle'"></avatar>
-        </div>
-
-        <div class="fourteen wide column">
-      
-        <div class = "row padd_low padd_left_low">
-                <h6 *ngIf="post.days>=1"> 
-                        <span class = "fas fa-check-circle fa-fw"></span>
-                        <a href="">{{post.user.display_name}}</a> {{post.days}} day(s) ago
-                    </h6>
-                    <h6 *ngIf="post.days == 0"> 
-                            <span class = "fas fa-check-circle fa-fw"></span>
-                            <a href="">{{post.user.display_name}}</a> today
-                        </h6>
-        </div>
-  
-  
-        <div class = "row ">
-    
-
-          <h6 class="padd_left_low2">
-          <markdown [data]="post.details"></markdown>
-          </h6>
-                   
-        </div>
-  
-  
-        <div class = "row">
-        <div class="following bar">
-            <div class="ui container">
-              <div class="ui grid">
-                <div class="column">
-                  <div class="ui top secondary menu">
-                      
-                  <div  class="right menu ">
-  
-                      <a class = "item">
-                          <i  matTooltip="Add a comment" class ="fas fa-undo-alt fa-lg fa-fw " (click)="open_comment(post.id)"></i>
-                      </a>
-  
-                  </div><!-- end anonymous right menu -->
-                  </div><!-- end top menu -->
-                </div><!-- end column -->
-              </div><!-- end grid -->
-            </div><!-- end container -->
-          </div><!-- end bar -->
-
-        
-      </div>
     </div>
 
 
-        <div class="one wide column">
-           
-            <div class = "rows">
-                <i  matTooltip="Positive vote for this post" class="fas fa-sort-up fa-fw fa-2x" (click) = "upVote(post.id)"></i>
-            </div>
-            <div class = "rows">
-                <h4>&nbsp;&nbsp;{{post.up_vote-post.down_vote}}</h4>
-            </div>
-            <div class = "rows">
-                <i  matTooltip="Negative vote for this post" class="fas fa-sort-down fa-fw fa-2x" (click) = "downVote(post.id)"></i>
-            </div>
-        </div>
-        </div>
-  </div>
 
 
+    <!--Main Topic Section-->
 
+    <div class = "col-8">
 
-  <div *ngIf="post.comments.length>=1" class = "row padd_left">
-
-
-    <div  *ngFor ="let comment of post.comments" class = "row padd_left_high">
-
-        <div class="ui grid">
-
-
-          <div class = "row padd">
-
-            <div class ="one wide column ">
-                    <avatar [size] = 30 [name]="comment.display_name" [displayType]="'circle'"></avatar>
-            </div>
-
-
-            
-            <div class="fourteen wide column">
-          
-            <div class = "row padd_low padd_left_low0">
-                <h6 *ngIf="comment.days>=1"> 
-                    <span class = "fas fa-check-circle fa-fw"></span>
-                    <a href="">{{comment.display_name}}</a> {{comment.days}} day(s) ago
-                </h6>
-                <h6 *ngIf="comment.days == 0"> 
-                        <span class = "fas fa-check-circle fa-fw"></span>
-                        <a href="">{{comment.display_name}}</a> today
-                    </h6>
-            </div>
-      
-      
-            <div class = "row padd_right padd_left_low1">
         
-              <h6>
-              <markdown [data]="comment.brief"></markdown>
-              </h6>
-             
+
+    <div class = "row ">
+            <div class = "col-1 no-padding">
+                <avatar [size] = 50 [name]="original_post[0].display_name" [displayType]="'circle'"></avatar>
             </div>
-      
-      
-            <div class = "row">
-            <div class="following bar">
-                <div class="ui container">
-                  <div class="ui grid">
-                    <div class="column">
-                      <div class="ui top secondary menu">
+
+            <div class = "col-11">
+                <div class = "row">
+                    <div class="card no-padding">
+                            <div class="card-header">
+                            {{original_post[0].display_name}} <small class = "light">joined on {{original_post[0].join_date | date}} - Senior</small>
+
+                            <i class="text-muted fas fa-arrow-up fa-lg float_right fa-fw" (click) = "upVoteOP(original_post[0].id)"></i>&nbsp;
+                            <h6 class="text-muted float_right fa-fw">{{original_post[0].up_vote - original_post[0].down_vote}}</h6>&nbsp;
+                            <i class="text-muted fas fa-arrow-down fa-lg float_right fa-fw" (click) = "downVoteOP(original_post[0].id)"></i>&nbsp;
+                            </div>
+                            <div class="card-body">
+                           
+                                <markdown [data]="original_post[0].details"></markdown>
+
+                            </div>
+                            <div class="card-footer text-muted">
+                                    {{original_post[0].days}} days ago
+                                    <i class="fas fa-reply-all fa-lg float_right" (click)="open_comment(original_post[0].id)"></i>
+                            </div>
+                    </div>
+                </div>
+
+                <!--Comment Section per Post-->
+                <div *ngFor = "let comment of original_post[0].comments" class = "row">
+
+
+                    <div class = "col-2">
+
+                    </div>
+
+
+                    <div class = "col-10">
+
+                        <div class ="row padd_right_low">
+
+                            <hr class = "top" />
+
+                            <p class = "text-right font-weight-normal">{{comment.brief}} - by <a href = "">{{comment.display_name}}</a> at {{comment.date_created | date}}</p>
+
+                        </div>
+
                         
-                      </div><!-- end top menu -->
-                    </div><!-- end column -->
-                  </div><!-- end grid -->
-                </div><!-- end container -->
-              </div><!-- end bar -->
+
+                    </div>
+
+
+
+                </div>
+
+
+                <hr class = "top"/>
+            </div>
 
             
-              </div>
-          </div>
-        </div>
-
-      </div>
-  
-
-</div>
-
-
-</div>
-</div>
-  <!--Reply Section End-->
+    </div>
 
 
 
 
 
 
+
+
+
+
+
+
+    <div *ngFor = "let post of itemsToShow; let i = index" class = "row ">
+            <div class = "col-1 no-padding">
+                <avatar [size] = 50 [name]="post.user.display_name" [displayType]="'circle'"></avatar>
+            </div>
+
+            <div class = "col-11">
+                <div class = "row">
+                    <div class="card no-padding">
+                            <div class="card-header">
+                            {{post.user.display_name}} <small class = "light">joined on {{post.user.join_date | date}} - Senior</small>
+
+                            <i class="text-muted fas fa-arrow-up fa-lg float_right fa-fw" (click) = "upVote(post.id, i)"></i>&nbsp;
+                            <h6 class="text-muted float_right fa-fw">{{post.up_vote-post.down_vote}}</h6>&nbsp;
+                            <i class="text-muted fas fa-arrow-down fa-lg float_right fa-fw" (click) = "downVote(post.id, i)"></i>&nbsp;
+                            </div>
+                            <div class="card-body">
+                           
+                                <markdown [data]="post.details"></markdown>
+
+                            </div>
+                            <div class="card-footer text-muted">
+                                    {{post.days}} days ago
+                                    <i class="fas fa-reply-all fa-lg float_right" (click)="open_comment(post.id)"></i>
+                            </div>
+                    </div>
+                </div>
+
+                <!--Comment Section per Post-->
+                <div *ngFor = "let comment of post.comments" class = "row">
+
+
+                    <div class = "col-2">
+
+                    </div>
+
+
+                    <div class = "col-10">
+
+                        <div class ="row padd_right_low">
+
+                            <hr class = "top" />
+
+                            <p class = "text-right font-weight-normal">{{comment.brief}} - by <a href = "">{{comment.display_name}}</a> at {{comment.date_created | date}}</p>
+
+                        </div>
+
+                        
+
+                    </div>
+
+
+
+                </div>
+
+
+                <hr class = "top"/>
+            </div>
+
+            
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    </div>
+
+
+
+    <!-- Similar Posts Section -->
+
+    <div class = "col-3">
+
+            <div class="card bg-light mb-3 padd" style="max-width: 18rem;">
+                    <div class="card-header"><strong>Similar Posts</strong></div>
+                    <div class="card-body">
+
+                            <div class = "row padd_low" >
+                                
+                                    <a href = ""><p class="small2">Brief Cruisetronic</p></a>
+                                
+                                </div>
+                                <div class = "row padd_low" >
+                                        
+                                    <a href = ""><p class="small2">Toyota Corolla 11th Gen Facelift In Pakistan</p></a>
+                                  
         
+                                </div>
+                                <div class = "row padd_low" >
+                                            
+                                    <a href = ""><p class="small2">Restoration of Corolla 1994 & 7afe Swap</p></a>
+                                   
+        
+                                </div>
+                                <div class = "row" >
+                                                
+                                    <a href = ""><p class="small2">Poured MOLY GREEN 0W20 in engine, decreased throttle respone</p></a>
+                                 
+        
+                                </div>
+
+                                <div class = "row padd_low" >
+                                
+                                        <a href = ""><p class="small2">Brief Cruisetronic</p></a>
+                                    
+                                    </div>
+                                    <div class = "row padd_low" >
+                                            
+                                        <a href = ""><p class="small2">Toyota Corolla 11th Gen Facelift In Pakistan</p></a>
+                                      
+            
+                                    </div>
+                                    <div class = "row padd_low" >
+                                                
+                                        <a href = ""><p class="small2">Restoration of Corolla 1994 & 7afe Swap</p></a>
+                                       
+            
+                                    </div>
+                                    <div class = "row" >
+                                                    
+                                        <a href = ""><p class="small2">Poured MOLY GREEN 0W20 in engine, decreased throttle respone</p></a>
+                                     
+            
+                                    </div>
 
 
-      
 
 
-      </div>
+                    </div>
+            </div>
 
 
-  
+            <div class="card bg-light mb-3" style="max-width: 18rem;">
+                    <div class="card-header"><strong>Similar Tags</strong></div>
+                    <div class="card-body">
+
+                            <div class = "tags">
+                                    <i class="fas fa-tags fa-lg fa-fw"></i>
+                                    <a href="http://www.jquery2dotnet.com/search/label/css">CSS</a> <a href="http://www.jquery2dotnet.com/search/label/Javascript">Java Script</a>
+                                    <a href="http://www.jquery2dotnet.com/search/label/jquery">jQuery</a> <a href="http://www.jquery2dotnet.com/search/label/html5">HTML5</a> <a href="http://www.jquery2dotnet.com/search/label/css3">CSS3</a>
+                                </div> 
+
+
+                    </div>
+            </div>
+    </div>
+
+    
+    </div>
+</div>

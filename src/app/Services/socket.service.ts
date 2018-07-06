@@ -54,7 +54,6 @@ export class SocketService {
     }
 
 
-
   public handshake_1(): Observable<any> {
     return new Observable<any>(observer => {
         this.socket.on('handshake_1', (data: any) => observer.next(data));
